@@ -1,19 +1,30 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-const pacmanImage = require('../assets/pacman.png');
+import pacmanImage from '../assets/pacman.png';
 
-type PacmanProps = {
+type Coords = {
   x: number;
   y: number;
+};
+
+const LEFT = '-180deg';
+const RIGHT = '0deg';
+const UP = '-90deg';
+const DOWN = '90deg';
+
+type PacmanProps = {
+  coords: Coords;
+  direction: string;
 };
 
 const PacmanWrapper = styled.div`
   position: absolute;
   overflow: hidden;
-  width: 100px;
-  height: 100px;
-  top: ${(props: PacmanProps) => props.y + 'px'};
-  left: ${(props: PacmanProps) => props.x + 'px'};
+  width: 40px;
+  height: 40px;
+  top: ${(props: PacmanProps) => props.coords.y + 'px'};
+  left: ${(props: PacmanProps) => props.coords.x + 'px'};
+  transform: rotate(${(props: PacmanProps) => props.direction});
 `;
 
 const PacmanImage = styled.img`
@@ -21,19 +32,39 @@ const PacmanImage = styled.img`
   width: 100%;
 `;
 
-const Pacman = () => {
-  const [coords, setCoords] = useState({ x: 0, y: 0 });
+const Pacman: React.FC = () => {
+  const [coords, setCoords] = useState<Coords>({ x: 0, y: 0 });
+  const [direction, setDirection] = useState<string>(RIGHT);
 
   useEffect(() => {
-    const hello = () => setCoords({ x: coords.x + 10, y: coords.y });
-    document.addEventListener('click', hello);
-    return () => {
-      document.removeEventListener('click', hello);
+    const turn = (e: KeyboardEvent) => {
+      switch (e.code) {
+        case 'ArrowLeft':
+          setDirection(LEFT);
+          break;
+        case 'ArrowUp':
+          setDirection(UP);
+          break;
+        case 'ArrowRight':
+          setDirection(RIGHT);
+          break;
+        case 'ArrowDown':
+          setDirection(DOWN);
+          break;
+        default:
+          return;
+      }
     };
-  });
+
+    document.addEventListener('keydown', turn);
+
+    return () => {
+      document.removeEventListener('keydown', turn);
+    };
+  }, [direction, coords]);
 
   return (
-    <PacmanWrapper x={coords.x} y={coords.y}>
+    <PacmanWrapper coords={coords} direction={direction}>
       <PacmanImage src={pacmanImage} alt='pacman' />
     </PacmanWrapper>
   );
