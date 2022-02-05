@@ -1,15 +1,12 @@
 import ReactDOM from 'react-dom';
-import Pacman from './components/Pacman';
-import Arena from './components/Arena';
-import './index.css';
+import { ThemeProvider } from 'styled-components';
+import { theme, Global } from './theme';
+import App from './App';
 
-const App = () => {
-  return (
-    <div>
-      <Arena />
-      <Pacman />
-    </div>
-  );
-};
-
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <ThemeProvider theme={theme}>
+    <Global />
+    <App />
+  </ThemeProvider>,
+  document.getElementById('root')
+);

@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { theme } from '../theme';
 
 const ArenaWrapper = styled.div`
   position: absolute;
-  width: 1000px;
-  height: 1200px;
+  width: 1004px;
+  height: 1150px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #111;
-  border: 2px solid #00b;
+  border: 2px solid ${theme.COLORS.blue};
   display: flex;
   flex-wrap: wrap;
 `;
@@ -18,15 +18,13 @@ const Wall = styled.div`
   --size: 50;
   width: calc(var(--size) * 1px);
   height: calc(var(--size) * 1px);
-  box-sizing: border-box;
-  border: 1px solid #00b;
+  border: 1px solid ${theme.COLORS.blue};
 `;
 
 const Floor = styled.div`
   --size: 50;
   width: calc(var(--size) * 1px);
   height: calc(var(--size) * 1px);
-  box-sizing: border-box;
 `;
 
 const Arena = () => {
