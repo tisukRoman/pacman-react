@@ -1,7 +1,12 @@
 import ReactDOM from 'react-dom';
+import Pacman from './components/Pacman';
 
 const App = () => {
-  return <div>Hello, React</div>;
+  return (
+    <div>
+      <Pacman />
+    </div>
+  );
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));
