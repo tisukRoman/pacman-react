@@ -5,8 +5,10 @@ import { ArenaState, Direction, PacmanState } from '../setup/types';
 import { AppState } from '../store';
 import { theme } from '../theme';
 import Pacman from './Pacman';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { changeDirection } from '../actions/pacman';
+import useAnimationFrame from '../hooks/useAnimationFrame';
+import useArrowsController from '../hooks/useArrowsController';
 
 const ArenaWrapper = styled.div`
   position: absolute;
@@ -37,30 +39,10 @@ const Arena = () => {
   // prettier-ignore
   const { coords, direction } = useSelector<AppState, PacmanState>(state => state.pacman);
   const { scheme } = useSelector<AppState, ArenaState>((state) => state.arena);
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const keyListener = (e: KeyboardEvent) => {
-      switch (e.code) {
-        case 'ArrowLeft':
-          dispatch(changeDirection(Direction.LEFT));
-          break;
-        case 'ArrowRight':
-          dispatch(changeDirection(Direction.RIGHT));
-          break;
-        case 'ArrowUp':
-          dispatch(changeDirection(Direction.UP));
-          break;
-        case 'ArrowDown':
-          dispatch(changeDirection(Direction.DOWN));
-          break;
-      }
-    };
-    window.addEventListener('keydown', keyListener);
-
-    return function clear() {
-      window.removeEventListener('keydown', keyListener);
-    };
+  useArrowsController();
+  useAnimationFrame((deltaTime) => {
+    console.log(deltaTime);
   });
 
   return (
