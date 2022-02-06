@@ -1,4 +1,3 @@
-import Pacman from './components/Pacman';
 import Arena from './components/Arena';
 import Header from './components/Header';
 
@@ -7,7 +6,6 @@ const App = () => {
     <div>
       <Header/>
       <Arena/>
-      <Pacman/>
     </div>
   );
 };

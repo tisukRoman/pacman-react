@@ -1,8 +1,10 @@
+import { v4 } from 'uuid';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { ArenaState } from '../setup/types';
 import { AppState } from '../store';
 import { theme } from '../theme';
+import Pacman from './Pacman';
 
 const ArenaWrapper = styled.div`
   position: absolute;
@@ -34,11 +36,12 @@ const Arena = () => {
 
   return (
     <ArenaWrapper>
+      <Pacman />
       {scheme.map((block) => {
         if (block === 1) {
-          return <Wall></Wall>;
+          return <Wall key={v4()}></Wall>;
         } else {
-          return <Floor></Floor>;
+          return <Floor key={v4()}></Floor>;
         }
       })}
     </ArenaWrapper>
