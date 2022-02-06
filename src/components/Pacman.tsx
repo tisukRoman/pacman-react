@@ -1,20 +1,11 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import pacmanImage from '../assets/pacman.png';
-
-type Coords = {
-  x: number;
-  y: number;
-};
-
-const LEFT = '-180deg';
-const RIGHT = '0deg';
-const UP = '-90deg';
-const DOWN = '90deg';
+import { Coords, Direction } from '../setup/types';
 
 type PacmanProps = {
   coords: Coords;
-  direction: string;
+  direction: Direction;
 };
 
 const PacmanWrapper = styled.div`
@@ -33,38 +24,8 @@ const PacmanImage = styled.img`
 `;
 
 const Pacman: React.FC = () => {
-  const [coords, setCoords] = useState<Coords>({ x: 0, y: 0 });
-  const [direction, setDirection] = useState<string>(RIGHT);
-
-  useEffect(() => {
-    const turn = (e: KeyboardEvent) => {
-      switch (e.code) {
-        case 'ArrowLeft':
-          setDirection(LEFT);
-          break;
-        case 'ArrowUp':
-          setDirection(UP);
-          break;
-        case 'ArrowRight':
-          setDirection(RIGHT);
-          break;
-        case 'ArrowDown':
-          setDirection(DOWN);
-          break;
-        default:
-          return;
-      }
-    };
-
-    document.addEventListener('keydown', turn);
-
-    return () => {
-      document.removeEventListener('keydown', turn);
-    };
-  }, [direction, coords]);
-
   return (
-    <PacmanWrapper coords={coords} direction={direction}>
+    <PacmanWrapper coords={{ x: 0, y: 0 }} direction={Direction.RIGHT}>
       <PacmanImage src={pacmanImage} alt='pacman' />
     </PacmanWrapper>
   );
