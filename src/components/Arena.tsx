@@ -1,4 +1,6 @@
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { AppState } from '../store';
 import { theme } from '../theme';
 
 const ArenaWrapper = styled.div`
@@ -27,10 +29,11 @@ const Floor = styled.div`
 `;
 
 const Arena = () => {
+  const scheme = useSelector<AppState, number[]>((state) => state.arena.scheme);
 
   return (
     <ArenaWrapper>
-      {[].map((block) => {
+      {scheme.map((block) => {
         if (block === 1) {
           return <Wall></Wall>;
         } else {

@@ -1,12 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import pacmanImage from '../assets/pacman.png';
 import { Coords, Direction } from '../setup/types';
-
-type PacmanProps = {
-  coords: Coords;
-  direction: Direction;
-};
+import { AppState } from '../store';
 
 const PacmanWrapper = styled.div`
   position: absolute;
@@ -23,9 +19,17 @@ const PacmanImage = styled.img`
   width: 100%;
 `;
 
+type PacmanProps = {
+  coords: Coords;
+  direction: Direction;
+};
+
 const Pacman: React.FC = () => {
+  // prettier-ignore
+  const {coords, direction} = useSelector<AppState, {coords: Coords, direction: Direction}>(state => state.pacman);
+
   return (
-    <PacmanWrapper coords={{ x: 0, y: 0 }} direction={Direction.RIGHT}>
+    <PacmanWrapper coords={coords} direction={direction}>
       <PacmanImage src={pacmanImage} alt='pacman' />
     </PacmanWrapper>
   );
