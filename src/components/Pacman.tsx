@@ -1,18 +1,15 @@
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import pacmanImage from '../assets/pacman.png';
-import { PacmanState } from '../setup/types';
-import { AppState } from '../store';
+import { Coords, Direction } from '../setup/types';
 
 const PacmanWrapper = styled.div`
   position: absolute;
   overflow: hidden;
   width: 40px;
   height: 40px;
-  top: ${(props: PacmanState) => props.coords.y + '%'};
-  left: ${(props: PacmanState) => props.coords.x + '%'};
-  transform: rotate(${(props: PacmanState) => props.direction});
+  top: ${(props: PacmanProps) => props.coords.y + '%'};
+  left: ${(props: PacmanProps) => props.coords.x + '%'};
+  transform: rotate(${(props: PacmanProps) => props.direction});
 `;
 
 const PacmanImage = styled.img`
@@ -20,19 +17,12 @@ const PacmanImage = styled.img`
   width: 100%;
 `;
 
-const Pacman: React.FC = () => {
-  // prettier-ignore
-  const {coords, direction} = useSelector<AppState, PacmanState>(state => state.pacman);
+type PacmanProps = {
+  coords: Coords;
+  direction: Direction;
+};
 
-  useEffect(() => {
-    const call = (e: KeyboardEvent) => {
-      console.log(e);
-    };
-    window.addEventListener('keydown', call);
-
-    return () => window.removeEventListener('keydown', call);
-  });
-
+const Pacman: React.FC<PacmanProps> = ({ coords, direction }) => {
   return (
     <PacmanWrapper coords={coords} direction={direction}>
       <PacmanImage src={pacmanImage} alt='pacman' />

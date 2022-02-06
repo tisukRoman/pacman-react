@@ -6,9 +6,11 @@ import { header } from './reducers/header';
 const rootReducer = combineReducers({
   pacman,
   arena,
-  header
+  header,
 });
 
 export type AppState = ReturnType<typeof rootReducer>;
 
 export const store = createStore(rootReducer);
+
+store.subscribe(() => console.log(store.getState().pacman.direction));

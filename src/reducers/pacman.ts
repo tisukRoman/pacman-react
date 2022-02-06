@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { move } from '../setup/constants';
+import c from '../setup/constants';
 import { Direction, PacmanState } from '../setup/types';
 
 const pacmanState: PacmanState = {
@@ -10,14 +10,17 @@ const pacmanState: PacmanState = {
   direction: Direction.RIGHT,
 };
 
-export const pacman = (state = pacmanState, action: Action) => {
+interface AC extends Action {
+  direction: Direction;
+}
+
+export const pacman = (state = pacmanState, action: AC) => {
   switch (action.type) {
-    case move.RIGHT: {
+    case c.CHANGE_DIRECTION:
       return {
-        direction: Direction.RIGHT,
-        coords: { y: state.coords.y, x: state.coords.x + 2 },
+        ...state,
+        direction: action.direction,
       };
-    }
     default:
       return state;
   }

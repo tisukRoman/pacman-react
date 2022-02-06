@@ -1,12 +1,12 @@
 import { Action } from 'redux';
-import { move } from '../setup/constants';
 import { Direction } from '../setup/types';
+import c from '../setup/constants';
 
-export const movePacman = (direction: Direction): Action | void => {
-  switch (direction) {
-    case move.RIGHT:
-      return { type: move.RIGHT };
-    default:
-      return;
-  }
-};
+interface AC extends Action {
+  direction: Direction;
+}
+
+export const changeDirection = (direction: Direction): AC => ({
+  type: c.CHANGE_DIRECTION,
+  direction,
+});
