@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { HeaderState } from '../setup/types';
+import { AppState } from '../store';
 import { theme } from '../theme';
 
 const HeaderWrapper = styled.div`
@@ -14,7 +16,7 @@ const HeaderWrapper = styled.div`
 `;
 
 const Header = () => {
-  const [title, setTitle] = useState<string>('GAME OVER!');
+  const { title } = useSelector<AppState, HeaderState>((state) => state.header);
 
   return <HeaderWrapper>{title}</HeaderWrapper>;
 };
