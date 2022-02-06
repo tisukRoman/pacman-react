@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { ArenaState } from '../setup/types';
 import { AppState } from '../store';
 import { theme } from '../theme';
 
@@ -29,7 +30,7 @@ const Floor = styled.div`
 `;
 
 const Arena = () => {
-  const scheme = useSelector<AppState, number[]>((state) => state.arena.scheme);
+  const { scheme } = useSelector<AppState, ArenaState>((state) => state.arena);
 
   return (
     <ArenaWrapper>

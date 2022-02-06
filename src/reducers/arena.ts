@@ -1,8 +1,7 @@
 import { Action } from 'redux';
+import { ArenaState } from '../setup/types';
 
-const arenaState: {
-  scheme: number[];
-} = {
+const arenaState: ArenaState = {
   // prettier-ignore
   scheme: [
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,

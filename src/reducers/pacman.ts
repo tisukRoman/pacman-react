@@ -1,10 +1,7 @@
 import { Action } from 'redux';
-import { Coords, Direction } from '../setup/types';
+import { Direction, PacmanState } from '../setup/types';
 
-const pacmanState: {
-  coords: Coords;
-  direction: Direction;
-} = {
+const pacmanState: PacmanState = {
   coords: {
     x: 0,
     y: 0,

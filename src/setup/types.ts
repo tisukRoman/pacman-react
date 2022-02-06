@@ -9,3 +9,12 @@ export const enum Direction {
   UP = 'UP',
   DOWN = 'DOWN',
 }
+
+export type PacmanState = {
+  coords: Coords;
+  direction: Direction;
+};
+
+export type ArenaState = {
+  scheme: number[];
+};
