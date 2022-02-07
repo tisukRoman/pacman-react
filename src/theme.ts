@@ -26,6 +26,10 @@ const Global = createGlobalStyle`
         box-sizing: border-box;
         background-color: ${theme.COLORS.black};
     };
+
+    canvas {
+      display: none;
+    }
 `;
 
 export { Global, theme };

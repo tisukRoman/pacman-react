@@ -117,12 +117,12 @@ function updateArena(state: GameState): ArenaState {
 }
 
 function findPacmanCoords(arena: ArenaState): Coords {
-  for (let i = 0; i < 21; i++) {
-    for (let j = 0; j < 25; j++) {
+  for (let i = 0; i < 26; i++) {
+    for (let j = 0; j < 21; j++) {
       if (arena[i][j] === 3) return [i, j];
     }
   }
-  return [-1, -1]; // pacman was not found
+  return [-1, -1]; // never
 }
 
 function isObstacle(element: number): boolean {
