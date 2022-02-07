@@ -6,11 +6,13 @@ import { store } from './store';
 import App from './App';
 
 ReactDOM.render(
-  <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <Global />
-      <App />
-    </ThemeProvider>
-  </Provider>,
+  <>
+    <Global />
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </Provider>
+  </>,
   document.getElementById('root')
 );
