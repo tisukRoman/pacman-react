@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import pacmanImage from '../assets/pacman.png';
+import pacmanImage from '../assets/pac.gif';
 import { Coords, Direction } from '../setup/types';
 
 const PacmanWrapper = styled.div`
