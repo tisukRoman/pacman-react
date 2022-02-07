@@ -6,6 +6,9 @@ import { theme } from '../theme';
 import Pacman from './Pacman';
 import useArrowsController from '../hooks/useArrowsController';
 import { AppState } from '../store';
+import useAnimationFrame from '../hooks/useAnimationFrame';
+import { movePacman } from '../actions/pacman';
+import { useRef } from 'react';
 
 const ArenaWrapper = styled.div`
   position: absolute;
@@ -37,9 +40,16 @@ const Arena = () => {
   const { coords, direction } = useSelector<AppState, PacmanState>(state => state.game.pacman);
   const arena = useSelector<AppState, ArenaState>((state) => state.game.arena);
   const dispatch = useDispatch();
+  const fps = useRef<number>(0);
 
   useArrowsController();
-  //useAnimationFrame((deltaTime) => dispatch(movePacman()));
+  useAnimationFrame((deltaTime) => {
+    fps.current++;
+    if (fps.current > 20) {
+      fps.current = 0;
+      dispatch(movePacman());
+    }
+  });
 
   return (
     <ArenaWrapper>

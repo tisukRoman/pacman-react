@@ -7,6 +7,7 @@ const PacmanWrapper = styled.div`
   width: 50px;
   height: 50px;
   transform: rotate(${(props: PacmanProps) => turnPacman(props.direction)});
+  transition: 0.5s;
 `;
 
 const PacmanImage = styled.img`
