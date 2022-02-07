@@ -3,12 +3,9 @@ import pacmanImage from '../assets/pac.gif';
 import { Coords, Direction } from '../setup/types';
 
 const PacmanWrapper = styled.div`
-  position: absolute;
   overflow: hidden;
-  width: 40px;
-  height: 40px;
-  top: ${(props: PacmanProps) => props.coords.y + '%'};
-  left: ${(props: PacmanProps) => props.coords.x + '%'};
+  width: 50px;
+  height: 50px;
   transform: rotate(${(props: PacmanProps) => turnPacman(props.direction)});
 `;
 

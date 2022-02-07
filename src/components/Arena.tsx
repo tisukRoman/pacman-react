@@ -45,10 +45,11 @@ const Arena = () => {
 
   return (
     <ArenaWrapper>
-      <Pacman coords={coords} direction={direction} />
       {scheme.map((row) => {
         return row.map((block) => {
-          if (block === 1) {
+          if (block === 3) {
+            return <Pacman coords={coords} direction={direction} />;
+          } else if (block === 1) {
             return <Wall key={v4()}></Wall>;
           } else {
             return <Floor key={v4()}></Floor>;
