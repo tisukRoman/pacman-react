@@ -1,7 +1,6 @@
-export type Coords = {
-  x: number;
-  y: number;
-};
+import { Action } from 'redux';
+
+export type Coords = [number, number];
 
 export const enum Direction {
   LEFT = 'LEFT',
@@ -10,15 +9,19 @@ export const enum Direction {
   DOWN = 'DOWN',
 }
 
+export type ArenaState = number[][];
+
 export type PacmanState = {
-  coords: Coords;
   direction: Direction;
+  coords: Coords;
 };
 
-export type ArenaState = {
-  scheme: number[][];
-};
-
-export type HeaderState = {
+export type GameState = {
   title: string;
+  arena: ArenaState;
+  pacman: PacmanState;
 };
+
+export interface ActionDir extends Action {
+  direction: Direction;
+}

@@ -7,7 +7,7 @@ interface AC extends Action {
 }
 
 export const changeDirection = (direction: Direction): AC => ({
-  type: c.CHANGE_DIRECTION,
+  type: c.CHANGE_PACMAN_DIRECTION,
   direction,
 });
 

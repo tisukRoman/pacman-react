@@ -1,16 +1,8 @@
 import { createStore, combineReducers } from 'redux';
-import { pacman } from './reducers/pacman';
-import { arena } from './reducers/arena';
-import { header } from './reducers/header';
+import { game } from './reducers/game';
 
-const rootReducer = combineReducers({
-  pacman,
-  arena,
-  header,
-});
+const rootReducer = combineReducers({ game });
 
 export type AppState = ReturnType<typeof rootReducer>;
 
 export const store = createStore(rootReducer);
-
-store.subscribe(() => console.log(store.getState().pacman.direction));
