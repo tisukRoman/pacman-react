@@ -16,7 +16,7 @@ export type PacmanState = {
 };
 
 export type ArenaState = {
-  scheme: number[];
+  scheme: number[][];
 };
 
 export type HeaderState = {
