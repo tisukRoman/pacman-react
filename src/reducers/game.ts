@@ -4,7 +4,6 @@ import {
   Coords,
   Direction,
   GameState,
-  PacmanState,
 } from '../setup/types';
 import c from '../setup/constants';
 
@@ -80,40 +79,58 @@ function updateArena(state: GameState): ArenaState {
   const arena = state.arena;
   const pacman = state.pacman;
 
-  const [i, j] = findPacmanCoords(arena);
-
   switch (pacman.direction) {
     case Direction.RIGHT:
-      if (isObstacle(arena[i][j + 1])) {
-        return arena;
-      }
-      arena[i][j + 1] = arena[i][j];
-      arena[i][j] = 0;
-      return arena;
+      return moveRight(arena);
     case Direction.LEFT:
-      if (isObstacle(arena[i][j - 1])) {
-        return arena;
-      }
-      arena[i][j - 1] = arena[i][j];
-      arena[i][j] = 0;
-      return arena;
+      return moveLeft(arena);
     case Direction.UP:
-      if (isObstacle(arena[i - 1][j])) {
-        return arena;
-      }
-      arena[i - 1][j] = arena[i][j];
-      arena[i][j] = 0;
-      return arena;
+      return moveUp(arena);
     case Direction.DOWN:
-      if (isObstacle(arena[i + 1][j])) {
-        return arena;
-      }
-      arena[i + 1][j] = arena[i][j];
-      arena[i][j] = 0;
-      return arena;
+      return moveDown(arena);
     default:
       return arena;
   }
+}
+
+function moveRight(arena: ArenaState) {
+  const [i, j] = findPacmanCoords(arena);
+  if (isObstacle(arena[i][j + 1])) {
+    return arena;
+  }
+  arena[i][j + 1] = arena[i][j];
+  arena[i][j] = 0;
+  return arena;
+}
+
+function moveLeft(arena: ArenaState) {
+  const [i, j] = findPacmanCoords(arena);
+  if (isObstacle(arena[i][j - 1])) {
+    return arena;
+  }
+  arena[i][j - 1] = arena[i][j];
+  arena[i][j] = 0;
+  return arena;
+}
+
+function moveUp(arena: ArenaState) {
+  const [i, j] = findPacmanCoords(arena);
+  if (isObstacle(arena[i - 1][j])) {
+    return arena;
+  }
+  arena[i - 1][j] = arena[i][j];
+  arena[i][j] = 0;
+  return arena;
+}
+
+function moveDown(arena: ArenaState) {
+  const [i, j] = findPacmanCoords(arena);
+  if (isObstacle(arena[i + 1][j])) {
+    return arena;
+  }
+  arena[i + 1][j] = arena[i][j];
+  arena[i][j] = 0;
+  return arena;
 }
 
 function findPacmanCoords(arena: ArenaState): Coords {
@@ -128,5 +145,3 @@ function findPacmanCoords(arena: ArenaState): Coords {
 function isObstacle(element: number): boolean {
   return element === 1;
 }
-
-updateArena(gameState);
