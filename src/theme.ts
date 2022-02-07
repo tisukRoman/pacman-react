@@ -3,8 +3,9 @@ import { createGlobalStyle } from 'styled-components';
 //-----------------------------// Themes
 const theme = {
   COLORS: {
-    black: '#111',
+    black: '#000',
     blue: '#00b',
+    dark_blue: '#004',
   },
   FONT: {
     pixel: `'Press Start 2P', cursive`,
@@ -22,8 +23,6 @@ const Global = createGlobalStyle`
     };
 
     *{
-        margin: 0;
-        padding: 0;
         box-sizing: border-box;
         background-color: ${theme.COLORS.black};
     };

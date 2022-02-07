@@ -7,10 +7,10 @@ import App from './App';
 
 ReactDOM.render(
   <>
-    <Global />
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <App />
+        <Global />
       </ThemeProvider>
     </Provider>
   </>,

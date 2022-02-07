@@ -27,6 +27,7 @@ const Wall = styled.div`
   width: calc(var(--size) * 1px);
   height: calc(var(--size) * 1px);
   border: 1px solid ${theme.COLORS.blue};
+  background-color: ${theme.COLORS.dark_blue}
 `;
 
 const Floor = styled.div`
@@ -45,7 +46,7 @@ const Arena = () => {
   useArrowsController();
   useAnimationFrame((deltaTime) => {
     fps.current++;
-    if (fps.current > 20) {
+    if (fps.current > 15) {
       fps.current = 0;
       dispatch(movePacman());
     }

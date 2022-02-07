@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { AppState } from '../store';
 import { theme } from '../theme';
 
-const HeaderWrapper = styled.div`
+const HeaderWrapper = styled.header`
   border: 5px solid ${theme.COLORS.blue};
   color: #fff;
   text-align: center;
