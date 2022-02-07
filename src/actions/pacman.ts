@@ -10,3 +10,5 @@ export const changeDirection = (direction: Direction): AC => ({
   type: c.CHANGE_DIRECTION,
   direction,
 });
+
+export const movePacman = (): Action => ({ type: c.MOVE_PACMAN });

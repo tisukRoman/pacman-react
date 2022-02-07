@@ -21,7 +21,36 @@ export const pacman = (state = pacmanState, action: AC) => {
         ...state,
         direction: action.direction,
       };
+    case c.MOVE_PACMAN:
+      return moveIn(state, state.direction);
     default:
       return state;
   }
 };
+
+
+// Additional functions
+function moveIn(state: PacmanState, dir: Direction, speed = 0.5) {
+  switch (dir) {
+    case Direction.RIGHT:
+      return {
+        ...state,
+        coords: { x: state.coords.x + speed, y: state.coords.y },
+      };
+    case Direction.LEFT:
+      return {
+        ...state,
+        coords: { x: state.coords.x - speed, y: state.coords.y },
+      };
+    case Direction.UP:
+      return {
+        ...state,
+        coords: { x: state.coords.x, y: state.coords.y - speed },
+      };
+    case Direction.DOWN:
+      return {
+        ...state,
+        coords: { x: state.coords.x, y: state.coords.y + speed },
+      };
+  }
+}

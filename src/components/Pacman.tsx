@@ -9,7 +9,7 @@ const PacmanWrapper = styled.div`
   height: 40px;
   top: ${(props: PacmanProps) => props.coords.y + '%'};
   left: ${(props: PacmanProps) => props.coords.x + '%'};
-  transform: rotate(${(props: PacmanProps) => props.direction});
+  transform: rotate(${(props: PacmanProps) => turnPacman(props.direction)});
 `;
 
 const PacmanImage = styled.img`
@@ -31,3 +31,19 @@ const Pacman: React.FC<PacmanProps> = ({ coords, direction }) => {
 };
 
 export default Pacman;
+
+// Additional functions
+function turnPacman(direction: Direction) {
+  switch (direction) {
+    case Direction.RIGHT:
+      return '0deg';
+    case Direction.LEFT:
+      return '180deg';
+    case Direction.UP:
+      return '-90deg';
+    case Direction.DOWN:
+      return '90deg';
+    default:
+      break;
+  }
+}
