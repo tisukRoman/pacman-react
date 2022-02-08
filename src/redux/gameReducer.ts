@@ -1,10 +1,5 @@
-import {
-  ActionDir,
-  ArenaState,
-  Coords,
-  Direction,
-  GameState,
-} from '../setup/types';
+import { ActionDir, Direction, GameState } from '../setup/types';
+import { findPacmanCoords, updateArena } from './helpers';
 import c from '../setup/constants';
 
 const gameState: GameState = {
@@ -74,76 +69,3 @@ export const pacman = (state = gameState.pacman, action: ActionDir) => {
       return state;
   }
 };
-
-// Additional functions
-
-function updateArena(state: GameState): ArenaState {
-  const arena = state.arena;
-  const pacman = state.pacman;
-
-  switch (pacman.direction) {
-    case Direction.RIGHT:
-      return moveRight(arena);
-    case Direction.LEFT:
-      return moveLeft(arena);
-    case Direction.UP:
-      return moveUp(arena);
-    case Direction.DOWN:
-      return moveDown(arena);
-    default:
-      return arena;
-  }
-}
-
-function moveRight(arena: ArenaState) {
-  const [i, j] = findPacmanCoords(arena);
-  if (isObstacle(arena[i][j + 1])) {
-    return arena;
-  }
-  arena[i][j + 1] = arena[i][j];
-  arena[i][j] = 0;
-  return arena;
-}
-
-function moveLeft(arena: ArenaState) {
-  const [i, j] = findPacmanCoords(arena);
-  if (isObstacle(arena[i][j - 1])) {
-    return arena;
-  }
-  arena[i][j - 1] = arena[i][j];
-  arena[i][j] = 0;
-  return arena;
-}
-
-function moveUp(arena: ArenaState) {
-  const [i, j] = findPacmanCoords(arena);
-  if (isObstacle(arena[i - 1][j])) {
-    return arena;
-  }
-  arena[i - 1][j] = arena[i][j];
-  arena[i][j] = 0;
-  return arena;
-}
-
-function moveDown(arena: ArenaState) {
-  const [i, j] = findPacmanCoords(arena);
-  if (isObstacle(arena[i + 1][j])) {
-    return arena;
-  }
-  arena[i + 1][j] = arena[i][j];
-  arena[i][j] = 0;
-  return arena;
-}
-
-function findPacmanCoords(arena: ArenaState): Coords {
-  for (let i = 0; i < 26; i++) {
-    for (let j = 0; j < 21; j++) {
-      if (arena[i][j] === 3) return [i, j];
-    }
-  }
-  return [-1, -1]; // never
-}
-
-function isObstacle(element: number): boolean {
-  return element === 1;
-}

@@ -1,4 +1,7 @@
 import { Action } from 'redux';
+import { rootReducer } from '../redux/store';
+
+export type AppState = ReturnType<typeof rootReducer>;
 
 export type Coords = [number, number];
 

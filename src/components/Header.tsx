@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { AppState } from '../store';
+import { AppState } from '../setup/types';
 import { theme } from '../theme';
 
 const HeaderWrapper = styled.header`

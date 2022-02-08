@@ -2,8 +2,8 @@ import ReactDOM from 'react-dom';
 import { ThemeProvider } from 'styled-components';
 import { Provider } from 'react-redux';
 import { theme, Global } from './theme';
-import { store } from './store';
-import App from './App';
+import { store } from './redux/store';
+import App from './components/App';
 
 ReactDOM.render(
   <>

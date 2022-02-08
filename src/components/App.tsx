@@ -1,5 +1,5 @@
-import Arena from './components/Arena';
-import Header from './components/Header';
+import Arena from './Arena';
+import Header from './Header';
 
 const App = () => {
   return (
