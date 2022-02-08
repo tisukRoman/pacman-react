@@ -1,14 +1,16 @@
 import { v4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
+import { useRef } from 'react';
 import styled from 'styled-components';
 import { ArenaState, PacmanState } from '../setup/types';
 import { theme } from '../theme';
-import Pacman from './Pacman';
-import useArrowsController from '../hooks/useArrowsController';
 import { AppState } from '../store';
-import useAnimationFrame from '../hooks/useAnimationFrame';
 import { movePacman } from '../actions/pacman';
-import { useRef } from 'react';
+import useAnimationFrame from '../hooks/useAnimationFrame';
+import useArrowsController from '../hooks/useArrowsController';
+import Pacman from './Pacman';
+import Wall from './Wall';
+import Floor from './Floor';
 
 const ArenaWrapper = styled.div`
   position: absolute;
@@ -22,20 +24,6 @@ const ArenaWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-const Wall = styled.div`
-  --size: 50;
-  width: calc(var(--size) * 1px);
-  height: calc(var(--size) * 1px);
-  border: 1px solid ${theme.COLORS.blue};
-  background-color: ${theme.COLORS.dark_blue};
-`;
-
-const Floor = styled.div`
-  --size: 50;
-  width: calc(var(--size) * 1px);
-  height: calc(var(--size) * 1px);
-`;
-
 const Arena = () => {
   // prettier-ignore
   const { coords, direction } = useSelector<AppState, PacmanState>(state => state.game.pacman);
@@ -46,7 +34,7 @@ const Arena = () => {
   useArrowsController();
   useAnimationFrame((deltaTime) => {
     fps.current++;
-    if (fps.current > 15) {
+    if (fps.current > 10) {
       fps.current = 0;
       dispatch(movePacman());
     }
