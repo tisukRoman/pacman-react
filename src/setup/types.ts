@@ -18,6 +18,8 @@ export type PacmanState = {
 
 export type GameState = {
   title: string;
+  currentScore: number;
+  maxScore: number;
   arena: ArenaState;
   pacman: PacmanState;
 };

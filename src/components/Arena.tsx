@@ -48,6 +48,10 @@ const Arena = () => {
             return <Pacman key={v4()} coords={coords} direction={direction} />;
           } else if (block === 1) {
             return <Wall key={v4()}></Wall>;
+          } else if (block === 2) {
+            return <Floor hasFood key={v4()}></Floor>;
+          } else if (block === 7) {
+            return <Floor hasPowerFood key={v4()}></Floor>;
           } else {
             return <Floor key={v4()}></Floor>;
           }

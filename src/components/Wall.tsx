@@ -9,7 +9,7 @@ const WallWrapper = styled.div`
   background-color: ${theme.COLORS.dark_blue};
 `;
 
-const Wall = () => {
+const Wall: React.FC = () => {
   return <WallWrapper></WallWrapper>;
 };
 

@@ -1,12 +1,8 @@
 import { Action } from 'redux';
-import { Direction } from '../setup/types';
+import { ActionDir, Direction } from '../setup/types';
 import c from '../setup/constants';
 
-interface AC extends Action {
-  direction: Direction;
-}
-
-export const changeDirection = (direction: Direction): AC => ({
+export const changeDirection = (direction: Direction): ActionDir => ({
   type: c.CHANGE_PACMAN_DIRECTION,
   direction,
 });

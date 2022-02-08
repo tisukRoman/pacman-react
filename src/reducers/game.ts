@@ -8,7 +8,6 @@ import {
 import c from '../setup/constants';
 
 const gameState: GameState = {
-  title: 'Welcome',
   arena: [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1],
@@ -38,6 +37,9 @@ const gameState: GameState = {
     coords: [14, 10],
     direction: Direction.RIGHT,
   },
+  title: 'Welcome',
+  currentScore: 0,
+  maxScore: 0,
 };
 
 export const game = (state = gameState, action: ActionDir): GameState => {
