@@ -10,6 +10,7 @@ import { constants as c } from '../setup/constants';
 import { objects as o } from '../setup/constants';
 
 const gameState: GameState = {
+  isLose: false,
   arena: [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1],
@@ -44,13 +45,17 @@ const gameState: GameState = {
     count: 176,
     coordsList: [],
   },
-  title: 'Welcome',
   currentScore: 0,
   maxScore: 0,
 };
 
 export const game = (state = gameState, action: AppAction): GameState => {
   switch (action.type) {
+    case c.GAME_OVER:
+      return {
+        ...JSON.parse(JSON.stringify(state)),
+        isLose: true,
+      };
     case c.CANCELL_POWER_MODE:
       return {
         ...JSON.parse(JSON.stringify(state)),

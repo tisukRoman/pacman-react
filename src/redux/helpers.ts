@@ -4,6 +4,7 @@ import { changePacmanCoords } from '../actions/pacman';
 import { ArenaState, Coords, Direction, PacmanState } from '../setup/types';
 import { store } from './store';
 import { objects as o } from '../setup/constants';
+import { gameOver } from '../actions/game';
 
 export function pacmanMoves(arena: ArenaState, pacman: PacmanState) {
   getFoodSpawnCoords(arena);
@@ -28,21 +29,20 @@ export function pacmanMoves(arena: ArenaState, pacman: PacmanState) {
 
 function moveIn(arena: ArenaState, coords: Coords) {
   const [i, j] = coords;
-  if (isFood(arena[i][j])) {
+
+  if (isGhost(arena[i][j])) {
+    store.dispatch(changePacmanCoords([i, j]));
+    store.dispatch(gameOver());
+  } else if (isFood(arena[i][j])) {
     store.dispatch(changePacmanCoords([i, j]));
     store.dispatch(eatUsualFood([i, j]));
-  }
-  if (isPowerFood(arena[i][j])) {
+  } else if (isPowerFood(arena[i][j])) {
     store.dispatch(changePacmanCoords([i, j]));
     store.dispatch(eatPowerFood([i, j]));
-  }
-  if (isWall(arena[i][j])) {
+  } else if (isWall(arena[i][j])) {
     return;
-  }
-  if (isFloor(arena[i][j])) {
+  } else if (isFloor(arena[i][j])) {
     store.dispatch(changePacmanCoords([i, j]));
-  } else {
-    return;
   }
 }
 

@@ -25,7 +25,7 @@ export type FoodState = {
 };
 
 export type GameState = {
-  title: string;
+  isLose: boolean;
   currentScore: number;
   maxScore: number;
   arena: ArenaState;

@@ -9,6 +9,8 @@ const constants = {
   CANCELL_POWER_MODE: 'CANCELL_POWER_MODE',
 
   UPDATE_ARENA: 'UPDATE_ARENA',
+
+  GAME_OVER: 'GAME_OVER',
 };
 
 const objects = {

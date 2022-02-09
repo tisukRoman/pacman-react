@@ -30,8 +30,17 @@ const Arena = () => {
   // prettier-ignore
   const pacman = useSelector<AppState, PacmanState>(state => state.pacman);
   const arena = useSelector<AppState, ArenaState>((state) => state.arena);
+  const gameIsLose = useSelector<AppState, boolean>((state) => state.isLose);
+  const score = useSelector<AppState, number>((state) => state.currentScore);
 
   const [animationSpeed, setAnimationSpeed] = useState<number>(0);
+
+  useEffect(() => {
+    if (gameIsLose) {
+      alert(`You have lost...
+      Your score: ${score}`);
+    }
+  }, [gameIsLose, score]);
 
   useEffect(() => {
     if (animationSpeed > 6) {
