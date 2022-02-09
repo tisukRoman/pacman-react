@@ -1,45 +1,77 @@
-import { ArenaState, Coords, Direction, GameState } from '../setup/types';
+import { updateArena } from '../actions/arena';
+import { changePacmanCoords } from '../actions/pacman';
+import { ArenaState, Coords, Direction, PacmanState } from '../setup/types';
+import { store } from './store';
 
-export function updateArena(state: GameState): ArenaState {
-  const arena = state.arena;
-  const pacman = state.pacman;
+const PACMAN = 3;
+const WALL = 1;
+const FOOD = 2;
+const POWER_FOOD = 7;
+const FLOOR = 0;
+const GHOST = 9;
+
+export function pacmanMoves(arena: ArenaState, pacman: PacmanState) {
   const [i, j] = findPacmanCoords(arena);
 
   switch (pacman.direction) {
     case Direction.RIGHT:
-      return moveFromTo(arena, [i, j], [i, j + 1]);
+      store.dispatch(changePacmanCoords([i, j + 1]));
+      break;
     case Direction.LEFT:
-      return moveFromTo(arena, [i, j], [i, j - 1]);
+      store.dispatch(changePacmanCoords([i, j - 1]));
+      break;
     case Direction.UP:
-      return moveFromTo(arena, [i, j], [i - 1, j]);
+      store.dispatch(changePacmanCoords([i - 1, j]));
+      break;
     case Direction.DOWN:
-      return moveFromTo(arena, [i, j], [i + 1, j]);
-    default:
-      return arena;
+      store.dispatch(changePacmanCoords([i + 1, j]));
+      break;
   }
+
+  store.dispatch(updateArena())
 }
 
 export function findPacmanCoords(arena: ArenaState): Coords {
+  debugger;
   for (let i = 0; i < arena.length; i++) {
     for (let j = 0; j < arena[i].length; j++) {
-      if (arena[i][j] === 3) return [i, j];
+      if (arena[i][j] === PACMAN) {
+        return [i, j];
+      } else {
+        continue;
+      }
     }
   }
   return [-1, -1]; // never returns
 }
 
-function moveFromTo(arena: ArenaState, current: Coords, next: Coords) {
-  const [i, j] = current;
-  const [x, y] = next;
 
-  if (isObstacle(arena[x][y])) {
-    return arena;
-  }
-  arena[x][y] = arena[i][j];
-  arena[i][j] = 0;
-  return arena;
+function isWall(element: number): boolean {
+  return element === WALL;
 }
 
-function isObstacle(element: number): boolean {
-  return element === 1;
+function isFloor(element: number): boolean {
+  return element === FLOOR;
+}
+
+function isFood(element: number): boolean {
+  return element === FOOD;
+}
+
+function isPowerFood(element: number): boolean {
+  return element === POWER_FOOD;
+}
+
+function isGhost(element: number): boolean {
+  return element === GHOST;
+}
+
+export function getFoodSpawnCoords(arena: ArenaState): Coords[] {
+  const coords: Coords[] = [];
+  for (let i = 0; i < arena.length; i++) {
+    for (let j = 0; j < arena[i].length; j++) {
+      if (arena[i][j] === FOOD) coords.push([i, j]);
+    }
+  }
+  return coords;
 }

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { changeDirection } from '../actions/pacman';
+import { changePacmanDirection } from '../actions/pacman';
 import { Direction } from '../setup/types';
 
 const useArrowsController = () => {
@@ -10,16 +10,16 @@ const useArrowsController = () => {
     const keyListener = (e: KeyboardEvent) => {
       switch (e.code) {
         case 'ArrowLeft':
-          dispatch(changeDirection(Direction.LEFT));
+          dispatch(changePacmanDirection(Direction.LEFT));
           break;
         case 'ArrowRight':
-          dispatch(changeDirection(Direction.RIGHT));
+          dispatch(changePacmanDirection(Direction.RIGHT));
           break;
         case 'ArrowUp':
-          dispatch(changeDirection(Direction.UP));
+          dispatch(changePacmanDirection(Direction.UP));
           break;
         case 'ArrowDown':
-          dispatch(changeDirection(Direction.DOWN));
+          dispatch(changePacmanDirection(Direction.DOWN));
           break;
       }
     };

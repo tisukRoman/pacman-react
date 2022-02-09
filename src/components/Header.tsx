@@ -15,7 +15,7 @@ const HeaderWrapper = styled.header`
 `;
 
 const Header = () => {
-  const title = useSelector<AppState, string>((state) => state.game.title);
+  const title = useSelector<AppState, string>((state) => state.title);
 
   return <HeaderWrapper>{title}</HeaderWrapper>;
 };

@@ -1,7 +1,7 @@
 import { Action } from 'redux';
-import { rootReducer } from '../redux/store';
+import { game } from '../redux/gameReducer';
 
-export type AppState = ReturnType<typeof rootReducer>;
+export type AppState = ReturnType<typeof game>;
 
 export type Coords = [number, number];
 
@@ -19,14 +19,21 @@ export type PacmanState = {
   coords: Coords;
 };
 
+export type FoodState = {
+  count: number;
+  spawnCoords: Coords[];
+};
+
 export type GameState = {
   title: string;
   currentScore: number;
   maxScore: number;
   arena: ArenaState;
   pacman: PacmanState;
+  food: FoodState;
 };
 
-export interface ActionDir extends Action {
-  direction: Direction;
+export interface A extends Action {
+  direction?: Direction;
+  coords?: Coords;
 }

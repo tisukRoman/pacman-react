@@ -1,12 +1,12 @@
 import { v4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
-import { useRef } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ArenaState, PacmanState, AppState } from '../setup/types';
 import { theme } from '../theme';
-import { movePacman } from '../actions/pacman';
 import useAnimationFrame from '../hooks/useAnimationFrame';
 import useArrowsController from '../hooks/useArrowsController';
+import { pacmanMoves } from '../redux/helpers';
 import Pacman from './Pacman';
 import Wall from './Wall';
 import Floor from './Floor';
@@ -25,26 +25,37 @@ const ArenaWrapper = styled.div`
 
 const Arena = () => {
   // prettier-ignore
-  const { coords, direction } = useSelector<AppState, PacmanState>(state => state.game.pacman);
-  const arena = useSelector<AppState, ArenaState>((state) => state.game.arena);
+  const pacman = useSelector<AppState, PacmanState>(state => state.pacman);
+  const arena = useSelector<AppState, ArenaState>((state) => state.arena);
+
   const dispatch = useDispatch();
-  const fps = useRef<number>(0);
+  const [animationSpeed, setAnimationSpeed] = useState<number>(0);
+
+  useAnimationFrame(() => {
+    setAnimationSpeed((s) => s + 1);
+  });
+
+  useEffect(() => {
+    if (animationSpeed > 8) {
+      pacmanMoves(arena, pacman);
+      setAnimationSpeed(0);
+    }
+  }, [dispatch, animationSpeed, arena, pacman]);
 
   useArrowsController();
-  useAnimationFrame((deltaTime) => {
-    fps.current++;
-    if (fps.current > 10) {
-      fps.current = 0;
-      dispatch(movePacman());
-    }
-  });
 
   return (
     <ArenaWrapper>
       {arena.map((row) => {
         return row.map((block) => {
           if (block === 3) {
-            return <Pacman key={v4()} coords={coords} direction={direction} />;
+            return (
+              <Pacman
+                key={v4()}
+                coords={pacman.coords}
+                direction={pacman.direction}
+              />
+            );
           } else if (block === 1) {
             return <Wall key={v4()}></Wall>;
           } else if (block === 2) {

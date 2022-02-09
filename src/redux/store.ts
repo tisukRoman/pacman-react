@@ -1,8 +1,6 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore } from 'redux';
 import { game } from './gameReducer';
 
-export const rootReducer = combineReducers({ game });
+export const store = createStore(game);
 
-export const store = createStore(rootReducer);
-
-store.subscribe(() => console.log(store.getState().game.pacman.coords));
+store.subscribe(()=> console.log(store.getState().pacman.coords))
