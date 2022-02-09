@@ -11,6 +11,7 @@ const constants = {
   UPDATE_ARENA: 'UPDATE_ARENA',
 
   GAME_OVER: 'GAME_OVER',
+  RESTART_GAME: 'RESTART_GAME',
 };
 
 const objects = {

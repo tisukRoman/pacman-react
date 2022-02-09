@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ArenaState, PacmanState, AppState } from '../setup/types';
@@ -13,6 +13,7 @@ import Floor from './Floor';
 import usePacmanPowerModeTimer from '../hooks/usePowerModeTimer';
 import { objects as o } from '../setup/constants';
 import Ghost from './Ghost';
+import { restartGame } from '../actions/game';
 
 const ArenaWrapper = styled.div`
   position: absolute;
@@ -33,14 +34,17 @@ const Arena = () => {
   const gameIsLose = useSelector<AppState, boolean>((state) => state.isLose);
   const score = useSelector<AppState, number>((state) => state.currentScore);
 
+  const dispatch = useDispatch();
+
   const [animationSpeed, setAnimationSpeed] = useState<number>(0);
 
   useEffect(() => {
     if (gameIsLose) {
       alert(`You have lost...
-      Your score: ${score}`);
+    Your score: ${score}`);
+    dispatch(restartGame());
     }
-  }, [gameIsLose, score]);
+  }, [dispatch, gameIsLose, score]);
 
   useEffect(() => {
     if (animationSpeed > 6) {

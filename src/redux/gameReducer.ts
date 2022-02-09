@@ -51,6 +51,8 @@ const gameState: GameState = {
 
 export const game = (state = gameState, action: AppAction): GameState => {
   switch (action.type) {
+    case c.RESTART_GAME:
+      return gameState;
     case c.GAME_OVER:
       return {
         ...JSON.parse(JSON.stringify(state)),
