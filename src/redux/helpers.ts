@@ -89,7 +89,5 @@ export function getFoodSpawnCoords(arena: ArenaState): Coords[] {
       if (arena[i][j] === FOOD) coords.push([i, j]);
     }
   }
-  console.log(coords);
-
   return coords;
 }

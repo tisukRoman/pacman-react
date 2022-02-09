@@ -10,3 +10,7 @@ export const changePacmanCoords = (coords: Coords): AppAction => ({
   type: c.CHANGE_PACMAN_COORDINATES,
   coords,
 });
+
+export const cancellPowerMode = (): AppAction => ({
+  type: c.CANCELL_POWER_MODE,
+});

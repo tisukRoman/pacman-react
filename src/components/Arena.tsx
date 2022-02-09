@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { ArenaState, PacmanState, AppState } from '../setup/types';
 import { theme } from '../theme';
@@ -10,6 +10,8 @@ import { pacmanMoves } from '../redux/helpers';
 import Pacman from './Pacman';
 import Wall from './Wall';
 import Floor from './Floor';
+import { cancellPowerMode } from '../actions/pacman';
+import usePacmanPowerModeTimer from '../hooks/usePowerModeTimer';
 
 const ArenaWrapper = styled.div`
   position: absolute;
@@ -28,20 +30,20 @@ const Arena = () => {
   const pacman = useSelector<AppState, PacmanState>(state => state.pacman);
   const arena = useSelector<AppState, ArenaState>((state) => state.arena);
 
-  const dispatch = useDispatch();
   const [animationSpeed, setAnimationSpeed] = useState<number>(0);
+
+  useEffect(() => {
+    if (animationSpeed > 6) {
+      pacmanMoves(arena, pacman);
+      setAnimationSpeed(0);
+    }
+  }, [animationSpeed, arena, pacman]);
 
   useAnimationFrame(() => {
     setAnimationSpeed((s) => s + 1);
   });
 
-  useEffect(() => {
-    if (animationSpeed > 8) {
-      pacmanMoves(arena, pacman);
-      setAnimationSpeed(0);
-    }
-  }, [dispatch, animationSpeed, arena, pacman]);
-
+  usePacmanPowerModeTimer(pacman);
   useArrowsController();
 
   return (

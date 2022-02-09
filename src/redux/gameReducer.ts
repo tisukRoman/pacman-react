@@ -1,4 +1,11 @@
-import { AppAction, ArenaState, Direction, GameState } from '../setup/types';
+import {
+  AppAction,
+  ArenaState,
+  Direction,
+  FoodState,
+  GameState,
+  PacmanState,
+} from '../setup/types';
 import c from '../setup/constants';
 
 const gameState: GameState = {
@@ -43,6 +50,11 @@ const gameState: GameState = {
 
 export const game = (state = gameState, action: AppAction): GameState => {
   switch (action.type) {
+    case c.CANCELL_POWER_MODE:
+      return {
+        ...JSON.parse(JSON.stringify(state)),
+        pacman: pacman(state.pacman, action),
+      };
     case c.EAT_POWER_FOOD:
       return {
         ...JSON.parse(JSON.stringify(state)),
@@ -76,8 +88,14 @@ export const game = (state = gameState, action: AppAction): GameState => {
   }
 };
 
-export const pacman = (state = gameState.pacman, action: AppAction) => {
+// prettier-ignore
+export const pacman = (state = gameState.pacman, action: AppAction ): PacmanState => {
   switch (action.type) {
+    case c.CANCELL_POWER_MODE:
+      return {
+        ...state,
+        power: false,
+      };
     case c.EAT_POWER_FOOD:
       return {
         ...state,
@@ -86,19 +104,19 @@ export const pacman = (state = gameState.pacman, action: AppAction) => {
     case c.CHANGE_PACMAN_DIRECTION:
       return {
         ...state,
-        direction: action.direction,
+        direction: action.direction ? action.direction : Direction.RIGHT,
       };
     case c.CHANGE_PACMAN_COORDINATES:
       return {
         ...state,
-        coords: action.coords,
+        coords: action.coords ? action.coords : [14, 10],
       };
     default:
       return state;
   }
 };
 
-export const food = (state = gameState.food, action: AppAction) => {
+export const food = (state = gameState.food, action: AppAction): FoodState => {
   switch (action.type) {
     case c.EAT_POWER_FOOD:
       return {
