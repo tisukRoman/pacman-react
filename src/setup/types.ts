@@ -16,6 +16,7 @@ export type ArenaState = number[][];
 export type PacmanState = {
   direction: Direction;
   coords: Coords;
+  power: boolean;
 };
 
 export type FoodState = {

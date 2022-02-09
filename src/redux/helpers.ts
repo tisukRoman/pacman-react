@@ -1,5 +1,5 @@
 import { updateArena } from '../actions/arena';
-import { eatUsualFood } from '../actions/food';
+import { eatPowerFood, eatUsualFood } from '../actions/food';
 import { changePacmanCoords } from '../actions/pacman';
 import { ArenaState, Coords, Direction, PacmanState } from '../setup/types';
 import { store } from './store';
@@ -37,6 +37,10 @@ function moveIn(arena: ArenaState, coords: Coords) {
   if (isFood(arena[i][j])) {
     store.dispatch(changePacmanCoords([i, j]));
     store.dispatch(eatUsualFood([i, j]));
+  }
+  if (isPowerFood(arena[i][j])) {
+    store.dispatch(changePacmanCoords([i, j]));
+    store.dispatch(eatPowerFood([i, j]));
   }
   if (isWall(arena[i][j])) {
     return;

@@ -54,6 +54,7 @@ const Arena = () => {
                 key={v4()}
                 coords={pacman.coords}
                 direction={pacman.direction}
+                power={pacman.power}
               />
             );
           } else if (block === 1) {

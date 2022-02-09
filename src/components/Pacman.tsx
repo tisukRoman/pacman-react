@@ -6,7 +6,8 @@ const PacmanWrapper = styled.div`
   overflow: hidden;
   width: 50px;
   height: 50px;
-  transform: rotate(${(props: PacmanProps) => turnPacman(props.direction)});
+  transform: rotate(${(props: PacmanProps) => turnPacman(props.direction)})
+    scale(${(props: PacmanProps) => (props.power ? 1.4 : 1)});
   transition: 0.5s;
 `;
 
@@ -18,11 +19,12 @@ const PacmanImage = styled.img`
 type PacmanProps = {
   coords: Coords;
   direction: Direction;
+  power: boolean;
 };
 
-const Pacman: React.FC<PacmanProps> = ({ coords, direction }) => {
+const Pacman: React.FC<PacmanProps> = ({ coords, direction, power }) => {
   return (
-    <PacmanWrapper coords={coords} direction={direction}>
+    <PacmanWrapper coords={coords} direction={direction} power={power}>
       <PacmanImage src={pacmanImage} alt='pacman' />
     </PacmanWrapper>
   );

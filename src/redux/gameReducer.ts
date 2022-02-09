@@ -28,6 +28,7 @@ const gameState: GameState = {
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   ],
   pacman: {
+    power: false,
     coords: [14, 10],
     direction: Direction.RIGHT,
   },
@@ -42,10 +43,17 @@ const gameState: GameState = {
 
 export const game = (state = gameState, action: AppAction): GameState => {
   switch (action.type) {
+    case c.EAT_POWER_FOOD:
+      return {
+        ...JSON.parse(JSON.stringify(state)),
+        currentScore: state.currentScore + 50,
+        food: food(state.food, action),
+        pacman: pacman(state.pacman, action),
+      };
     case c.EAT_USUAL_FOOD:
       return {
         ...JSON.parse(JSON.stringify(state)),
-        currentScore: state.currentScore + 100,
+        currentScore: state.currentScore + 10,
         food: food(state.food, action),
       };
     case c.UPDATE_ARENA:
@@ -70,14 +78,19 @@ export const game = (state = gameState, action: AppAction): GameState => {
 
 export const pacman = (state = gameState.pacman, action: AppAction) => {
   switch (action.type) {
+    case c.EAT_POWER_FOOD:
+      return {
+        ...state,
+        power: true,
+      };
     case c.CHANGE_PACMAN_DIRECTION:
       return {
+        ...state,
         direction: action.direction,
-        coords: state.coords,
       };
     case c.CHANGE_PACMAN_COORDINATES:
       return {
-        direction: state.direction,
+        ...state,
         coords: action.coords,
       };
     default:
@@ -87,6 +100,11 @@ export const pacman = (state = gameState.pacman, action: AppAction) => {
 
 export const food = (state = gameState.food, action: AppAction) => {
   switch (action.type) {
+    case c.EAT_POWER_FOOD:
+      return {
+        ...state,
+        count: state.count - 1,
+      };
     case c.EAT_USUAL_FOOD:
       return {
         ...state,
