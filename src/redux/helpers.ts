@@ -10,6 +10,16 @@ export function pacmanMoves(arena: ArenaState, pacman: PacmanState) {
   getFoodSpawnCoords(arena);
   const [i, j] = findPacmanCoords(arena);
 
+  if (
+    isGhost(arena[i][j + 1]) ||
+    isGhost(arena[i][j - 1]) ||
+    isGhost(arena[i - 1][j]) ||
+    isGhost(arena[i + 1][j])
+  ) {
+    store.dispatch(changePacmanCoords([i, j]));
+    store.dispatch(gameOver());
+  }
+
   switch (pacman.direction) {
     case Direction.RIGHT:
       moveIn(arena, [i, j + 1]);
@@ -30,18 +40,16 @@ export function pacmanMoves(arena: ArenaState, pacman: PacmanState) {
 function moveIn(arena: ArenaState, coords: Coords) {
   const [i, j] = coords;
 
-  if (isGhost(arena[i][j])) {
-    store.dispatch(changePacmanCoords([i, j]));
-    store.dispatch(gameOver());
-  } else if (isFood(arena[i][j])) {
+  if (isWall(arena[i][j])) {
+    return;
+  }
+  if (isFood(arena[i][j])) {
     store.dispatch(changePacmanCoords([i, j]));
     store.dispatch(eatUsualFood([i, j]));
   } else if (isPowerFood(arena[i][j])) {
     store.dispatch(changePacmanCoords([i, j]));
     store.dispatch(eatPowerFood([i, j]));
-  } else if (isWall(arena[i][j])) {
-    return;
-  } else if (isFloor(arena[i][j])) {
+  } else {
     store.dispatch(changePacmanCoords([i, j]));
   }
 }
@@ -58,10 +66,6 @@ export function findPacmanCoords(arena: ArenaState): Coords {
 
 function isWall(element: number): boolean {
   return element === o.WALL;
-}
-
-function isFloor(element: number): boolean {
-  return element === o.FLOOR;
 }
 
 function isFood(element: number): boolean {

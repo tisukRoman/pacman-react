@@ -24,6 +24,12 @@ export type FoodState = {
   coordsList: Coords[];
 };
 
+export type GhostState = {
+  id: number;
+  coords: Coords;
+  direction: Direction;
+};
+
 export type GameState = {
   isLose: boolean;
   currentScore: number;
@@ -31,10 +37,12 @@ export type GameState = {
   arena: ArenaState;
   pacman: PacmanState;
   food: FoodState;
+  ghosts: GhostState[];
 };
 
 export type AppAction = {
   type: string;
   direction?: Direction;
   coords?: Coords;
+  id?: number;
 };

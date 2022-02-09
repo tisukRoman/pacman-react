@@ -4,6 +4,7 @@ import {
   Direction,
   FoodState,
   GameState,
+  GhostState,
   PacmanState,
 } from '../setup/types';
 import { constants as c } from '../setup/constants';
@@ -41,6 +42,12 @@ const gameState: GameState = {
     coords: [14, 10],
     direction: Direction.RIGHT,
   },
+  ghosts: [
+    { id: 1, coords: [10, 10], direction: Direction.UP },
+    { id: 2, coords: [10, 9], direction: Direction.DOWN },
+    { id: 3, coords: [11, 10], direction: Direction.LEFT },
+    { id: 4, coords: [11, 9], direction: Direction.RIGHT },
+  ],
   food: {
     count: 176,
     coordsList: [],
@@ -51,6 +58,16 @@ const gameState: GameState = {
 
 export const game = (state = gameState, action: AppAction): GameState => {
   switch (action.type) {
+    case c.CHANGE_GHOST_COORDINATES:
+      return {
+        ...JSON.parse(JSON.stringify(state)),
+        ghosts: ghosts(state.ghosts, action),
+      };
+    case c.CHANGE_GHOST_DIRECTION:
+      return {
+        ...JSON.parse(JSON.stringify(state)),
+        ghosts: ghosts(state.ghosts, action),
+      };
     case c.RESTART_GAME:
       return gameState;
     case c.GAME_OVER:
@@ -97,7 +114,7 @@ export const game = (state = gameState, action: AppAction): GameState => {
 };
 
 // prettier-ignore
-export const pacman = (state = gameState.pacman, action: AppAction ): PacmanState => {
+function pacman (state = gameState.pacman, action: AppAction ): PacmanState {
   switch (action.type) {
     case c.CANCELL_POWER_MODE:
       return {
@@ -122,9 +139,9 @@ export const pacman = (state = gameState.pacman, action: AppAction ): PacmanStat
     default:
       return state;
   }
-};
+}
 
-export const food = (state = gameState.food, action: AppAction): FoodState => {
+function food(state = gameState.food, action: AppAction): FoodState {
   switch (action.type) {
     case c.EAT_POWER_FOOD:
       return {
@@ -139,7 +156,36 @@ export const food = (state = gameState.food, action: AppAction): FoodState => {
     default:
       return state;
   }
-};
+}
+
+function ghosts(state = gameState.ghosts, action: AppAction) {
+  switch (action.type) {
+    case c.CHANGE_GHOST_DIRECTION:
+      return state.map((ghost: GhostState) => {
+        if (ghost.id === action.id) {
+          return {
+            ...ghost,
+            direction: action.direction,
+          };
+        } else {
+          return ghost;
+        }
+      });
+    case c.CHANGE_GHOST_COORDINATES:
+      return state.map((ghost: GhostState) => {
+        if (ghost.id === action.id) {
+          return {
+            ...ghost,
+            coords: action.coords,
+          };
+        } else {
+          return ghost;
+        }
+      });
+    default:
+      return state;
+  }
+}
 
 // utils
 function getUpdatedArena(state: GameState): ArenaState {
