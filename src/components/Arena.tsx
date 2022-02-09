@@ -11,6 +11,8 @@ import Pacman from './Pacman';
 import Wall from './Wall';
 import Floor from './Floor';
 import usePacmanPowerModeTimer from '../hooks/usePowerModeTimer';
+import { objects as o } from '../setup/constants';
+import Ghost from './Ghost';
 
 const ArenaWrapper = styled.div`
   position: absolute;
@@ -49,7 +51,7 @@ const Arena = () => {
     <ArenaWrapper>
       {arena.map((row) => {
         return row.map((block) => {
-          if (block === 3) {
+          if (block === o.PACMAN) {
             return (
               <Pacman
                 key={v4()}
@@ -58,11 +60,13 @@ const Arena = () => {
                 power={pacman.power}
               />
             );
-          } else if (block === 1) {
+          } else if (block === o.GHOST) {
+            return <Ghost />;
+          } else if (block === o.WALL) {
             return <Wall key={v4()}></Wall>;
-          } else if (block === 2) {
+          } else if (block === o.FOOD) {
             return <Floor hasFood key={v4()}></Floor>;
-          } else if (block === 7) {
+          } else if (block === o.POWER_FOOD) {
             return <Floor hasPowerFood key={v4()}></Floor>;
           } else {
             return <Floor key={v4()}></Floor>;
