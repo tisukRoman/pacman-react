@@ -1,4 +1,3 @@
-import { Action } from 'redux';
 import { game } from '../redux/gameReducer';
 
 export type AppState = ReturnType<typeof game>;
@@ -21,7 +20,7 @@ export type PacmanState = {
 
 export type FoodState = {
   count: number;
-  spawnCoords: Coords[];
+  coordsList: Coords[];
 };
 
 export type GameState = {
@@ -33,7 +32,8 @@ export type GameState = {
   food: FoodState;
 };
 
-export interface A extends Action {
+export type AppAction = {
+  type: string;
   direction?: Direction;
   coords?: Coords;
-}
+};

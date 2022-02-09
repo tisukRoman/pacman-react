@@ -1,4 +1,5 @@
 import { updateArena } from '../actions/arena';
+import { eatUsualFood } from '../actions/food';
 import { changePacmanCoords } from '../actions/pacman';
 import { ArenaState, Coords, Direction, PacmanState } from '../setup/types';
 import { store } from './store';
@@ -11,40 +12,51 @@ const FLOOR = 0;
 const GHOST = 9;
 
 export function pacmanMoves(arena: ArenaState, pacman: PacmanState) {
+  getFoodSpawnCoords(arena);
   const [i, j] = findPacmanCoords(arena);
 
   switch (pacman.direction) {
     case Direction.RIGHT:
-      store.dispatch(changePacmanCoords([i, j + 1]));
+      moveIn(arena, [i, j + 1]);
       break;
     case Direction.LEFT:
-      store.dispatch(changePacmanCoords([i, j - 1]));
+      moveIn(arena, [i, j - 1]);
       break;
     case Direction.UP:
-      store.dispatch(changePacmanCoords([i - 1, j]));
+      moveIn(arena, [i - 1, j]);
       break;
     case Direction.DOWN:
-      store.dispatch(changePacmanCoords([i + 1, j]));
+      moveIn(arena, [i + 1, j]);
       break;
   }
+  store.dispatch(updateArena());
+}
 
-  store.dispatch(updateArena())
+function moveIn(arena: ArenaState, coords: Coords) {
+  const [i, j] = coords;
+  if (isFood(arena[i][j])) {
+    store.dispatch(changePacmanCoords([i, j]));
+    store.dispatch(eatUsualFood([i, j]));
+  }
+  if (isWall(arena[i][j])) {
+    return;
+  }
+  if (isFloor(arena[i][j])) {
+    store.dispatch(changePacmanCoords([i, j]));
+  } else {
+    return;
+  }
 }
 
 export function findPacmanCoords(arena: ArenaState): Coords {
-  debugger;
   for (let i = 0; i < arena.length; i++) {
     for (let j = 0; j < arena[i].length; j++) {
-      if (arena[i][j] === PACMAN) {
-        return [i, j];
-      } else {
-        continue;
-      }
+      if (arena[i][j] === PACMAN) return [i, j];
+      else continue;
     }
   }
   return [-1, -1]; // never returns
 }
-
 
 function isWall(element: number): boolean {
   return element === WALL;
@@ -73,5 +85,7 @@ export function getFoodSpawnCoords(arena: ArenaState): Coords[] {
       if (arena[i][j] === FOOD) coords.push([i, j]);
     }
   }
+  console.log(coords);
+
   return coords;
 }

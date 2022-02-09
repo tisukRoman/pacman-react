@@ -1,4 +1,4 @@
-import { A, ArenaState, Direction, GameState } from '../setup/types';
+import { AppAction, ArenaState, Direction, GameState } from '../setup/types';
 import c from '../setup/constants';
 
 const gameState: GameState = {
@@ -32,16 +32,22 @@ const gameState: GameState = {
     direction: Direction.RIGHT,
   },
   food: {
-    count: 0,
-    spawnCoords: [],
+    count: 172,
+    coordsList: [],
   },
   title: 'Welcome',
   currentScore: 0,
   maxScore: 0,
 };
 
-export const game = (state = gameState, action: A): GameState => {
+export const game = (state = gameState, action: AppAction): GameState => {
   switch (action.type) {
+    case c.EAT_USUAL_FOOD:
+      return {
+        ...JSON.parse(JSON.stringify(state)),
+        currentScore: state.currentScore + 100,
+        food: food(state.food, action),
+      };
     case c.UPDATE_ARENA:
       return {
         ...JSON.parse(JSON.stringify(state)),
@@ -62,8 +68,7 @@ export const game = (state = gameState, action: A): GameState => {
   }
 };
 
-export const pacman = (state = gameState.pacman, action: A) => {
-  debugger;
+export const pacman = (state = gameState.pacman, action: AppAction) => {
   switch (action.type) {
     case c.CHANGE_PACMAN_DIRECTION:
       return {
@@ -71,7 +76,6 @@ export const pacman = (state = gameState.pacman, action: A) => {
         coords: state.coords,
       };
     case c.CHANGE_PACMAN_COORDINATES:
-      debugger;
       return {
         direction: state.direction,
         coords: action.coords,
@@ -81,9 +85,20 @@ export const pacman = (state = gameState.pacman, action: A) => {
   }
 };
 
+export const food = (state = gameState.food, action: AppAction) => {
+  switch (action.type) {
+    case c.EAT_USUAL_FOOD:
+      return {
+        ...state,
+        count: state.count - 1,
+      };
+    default:
+      return state;
+  }
+};
+
 // utils
 function getUpdatedArena(state: GameState): ArenaState {
-  debugger;
   let arena = state.arena.map((row) => {
     return row.map((el) => {
       if (el === 3) return 0;

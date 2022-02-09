@@ -1,4 +1,4 @@
-import { A } from '../setup/types';
+import { AppAction } from '../setup/types';
 import c from '../setup/constants';
 
-export const updateArena = (): A => ({ type: c.UPDATE_ARENA });
+export const updateArena = (): AppAction => ({ type: c.UPDATE_ARENA });
