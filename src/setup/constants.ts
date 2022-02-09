@@ -4,9 +4,20 @@ const constants = {
 
   EAT_USUAL_FOOD: 'EAT_USUAL_FOOD',
   EAT_POWER_FOOD: 'EAT_POWER_FOOD',
+  SPAWN_FOOD: 'SPAWN_FOOD',
+
   CANCELL_POWER_MODE: 'CANCELL_POWER_MODE',
 
   UPDATE_ARENA: 'UPDATE_ARENA',
 };
 
-export default constants;
+const objects = {
+  PACMAN: 3,
+  WALL: 1,
+  FOOD: 2,
+  POWER_FOOD: 7,
+  FLOOR: 0,
+  GHOST: 9,
+};
+
+export { constants, objects };

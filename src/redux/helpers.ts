@@ -3,13 +3,7 @@ import { eatPowerFood, eatUsualFood } from '../actions/food';
 import { changePacmanCoords } from '../actions/pacman';
 import { ArenaState, Coords, Direction, PacmanState } from '../setup/types';
 import { store } from './store';
-
-const PACMAN = 3;
-const WALL = 1;
-const FOOD = 2;
-const POWER_FOOD = 7;
-const FLOOR = 0;
-const GHOST = 9;
+import { objects as o } from '../setup/constants';
 
 export function pacmanMoves(arena: ArenaState, pacman: PacmanState) {
   getFoodSpawnCoords(arena);
@@ -55,7 +49,7 @@ function moveIn(arena: ArenaState, coords: Coords) {
 export function findPacmanCoords(arena: ArenaState): Coords {
   for (let i = 0; i < arena.length; i++) {
     for (let j = 0; j < arena[i].length; j++) {
-      if (arena[i][j] === PACMAN) return [i, j];
+      if (arena[i][j] === o.PACMAN) return [i, j];
       else continue;
     }
   }
@@ -63,30 +57,31 @@ export function findPacmanCoords(arena: ArenaState): Coords {
 }
 
 function isWall(element: number): boolean {
-  return element === WALL;
+  return element === o.WALL;
 }
 
 function isFloor(element: number): boolean {
-  return element === FLOOR;
+  return element === o.FLOOR;
 }
 
 function isFood(element: number): boolean {
-  return element === FOOD;
+  return element === o.FOOD;
 }
 
 function isPowerFood(element: number): boolean {
-  return element === POWER_FOOD;
+  return element === o.POWER_FOOD;
 }
 
 function isGhost(element: number): boolean {
-  return element === GHOST;
+  return element === o.GHOST;
 }
 
 export function getFoodSpawnCoords(arena: ArenaState): Coords[] {
   const coords: Coords[] = [];
   for (let i = 0; i < arena.length; i++) {
     for (let j = 0; j < arena[i].length; j++) {
-      if (arena[i][j] === FOOD) coords.push([i, j]);
+      if (arena[i][j] === o.FOOD) coords.push([i, j]);
+      if (arena[i][j] === o.POWER_FOOD) coords.push([i, j]);
     }
   }
   return coords;

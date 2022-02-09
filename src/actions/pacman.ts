@@ -1,5 +1,5 @@
 import { AppAction, Coords, Direction } from '../setup/types';
-import c from '../setup/constants';
+import {constants as c} from '../setup/constants';
 
 export const changePacmanDirection = (direction: Direction): AppAction => ({
   type: c.CHANGE_PACMAN_DIRECTION,

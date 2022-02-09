@@ -6,7 +6,8 @@ import {
   GameState,
   PacmanState,
 } from '../setup/types';
-import c from '../setup/constants';
+import { constants as c } from '../setup/constants';
+import { objects as o } from '../setup/constants';
 
 const gameState: GameState = {
   arena: [
@@ -40,7 +41,7 @@ const gameState: GameState = {
     direction: Direction.RIGHT,
   },
   food: {
-    count: 172,
+    count: 176,
     coordsList: [],
   },
   title: 'Welcome',
@@ -137,13 +138,13 @@ export const food = (state = gameState.food, action: AppAction): FoodState => {
 function getUpdatedArena(state: GameState): ArenaState {
   let arena = state.arena.map((row) => {
     return row.map((el) => {
-      if (el === 3) return 0;
+      if (el === o.PACMAN) return o.FLOOR;
       else return el;
     });
   });
 
   const [i, j] = state.pacman.coords;
-  arena[i][j] = 3;
+  arena[i][j] = o.PACMAN;
 
   return arena;
 }

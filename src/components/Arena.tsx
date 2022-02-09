@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ArenaState, PacmanState, AppState } from '../setup/types';
 import { theme } from '../theme';
@@ -10,7 +10,6 @@ import { pacmanMoves } from '../redux/helpers';
 import Pacman from './Pacman';
 import Wall from './Wall';
 import Floor from './Floor';
-import { cancellPowerMode } from '../actions/pacman';
 import usePacmanPowerModeTimer from '../hooks/usePowerModeTimer';
 
 const ArenaWrapper = styled.div`
