@@ -23,7 +23,7 @@ const objects = {
   FOOD: 2,
   POWER_FOOD: 7,
   FLOOR: 0,
-  GHOST: 9,
+  GHOST: [11, 12, 13, 14],
 };
 
 export { constants, objects };

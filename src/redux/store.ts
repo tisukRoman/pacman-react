@@ -3,4 +3,4 @@ import { game } from './gameReducer';
 
 export const store = createStore(game);
 
-store.subscribe(()=> console.log(store.getState().food.count))
+store.subscribe(()=> console.log(store.getState().pacman.coords))

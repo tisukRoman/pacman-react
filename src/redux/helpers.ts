@@ -1,24 +1,24 @@
 import { updateArena } from '../actions/arena';
 import { eatPowerFood, eatUsualFood } from '../actions/food';
 import { changePacmanCoords } from '../actions/pacman';
-import { ArenaState, Coords, Direction, PacmanState } from '../setup/types';
+import {
+  ArenaState,
+  Coords,
+  Direction,
+  GhostState,
+  PacmanState,
+} from '../setup/types';
 import { store } from './store';
 import { objects as o } from '../setup/constants';
 import { gameOver } from '../actions/game';
+import { changeGhostCoords, changeGhostDirection } from '../actions/ghost';
 
 export function pacmanMoves(arena: ArenaState, pacman: PacmanState) {
-  getFoodSpawnCoords(arena);
-  const [i, j] = findPacmanCoords(arena);
-
-  if (
-    isGhost(arena[i][j + 1]) ||
-    isGhost(arena[i][j - 1]) ||
-    isGhost(arena[i - 1][j]) ||
-    isGhost(arena[i + 1][j])
-  ) {
-    store.dispatch(changePacmanCoords([i, j]));
-    store.dispatch(gameOver());
+  const coords = findPacmanCoords(arena);
+  if (!coords) {
+    return;
   }
+  const [i, j] = coords;
 
   switch (pacman.direction) {
     case Direction.RIGHT:
@@ -34,7 +34,6 @@ export function pacmanMoves(arena: ArenaState, pacman: PacmanState) {
       moveIn(arena, [i + 1, j]);
       break;
   }
-  store.dispatch(updateArena());
 }
 
 function moveIn(arena: ArenaState, coords: Coords) {
@@ -54,14 +53,35 @@ function moveIn(arena: ArenaState, coords: Coords) {
   }
 }
 
-export function findPacmanCoords(arena: ArenaState): Coords {
+export function findPacmanCoords(arena: ArenaState): Coords | undefined {
   for (let i = 0; i < arena.length; i++) {
     for (let j = 0; j < arena[i].length; j++) {
       if (arena[i][j] === o.PACMAN) return [i, j];
       else continue;
     }
   }
-  return [-1, -1]; // never returns
+  return undefined;
+}
+
+export function findGhostCoords(
+  arena: ArenaState,
+  id: number
+): Coords | undefined {
+  for (let i = 0; i < arena.length; i++) {
+    for (let j = 0; j < arena[i].length; j++) {
+      if (arena[i][j] === id) return [i, j];
+      else continue;
+    }
+  }
+  return undefined;
+}
+
+function isPacman(element: number): boolean {
+  return element === o.PACMAN;
+}
+
+function isFloor(element: number): boolean {
+  return element === o.FLOOR;
 }
 
 function isWall(element: number): boolean {
@@ -77,16 +97,51 @@ function isPowerFood(element: number): boolean {
 }
 
 function isGhost(element: number): boolean {
-  return element === o.GHOST;
+  return o.GHOST.includes(element);
 }
 
-export function getFoodSpawnCoords(arena: ArenaState): Coords[] {
-  const coords: Coords[] = [];
-  for (let i = 0; i < arena.length; i++) {
-    for (let j = 0; j < arena[i].length; j++) {
-      if (arena[i][j] === o.FOOD) coords.push([i, j]);
-      if (arena[i][j] === o.POWER_FOOD) coords.push([i, j]);
-    }
+export function ghostMoves(arena: ArenaState, ghost: GhostState) {
+  const coords = findGhostCoords(arena, ghost.id);
+  if (!coords) {
+    return;
   }
-  return coords;
+  const [i, j] = coords;
+
+  switch (ghost.direction) {
+    case Direction.RIGHT:
+      moveGhostIn(arena, [i, j + 1], ghost.id);
+      break;
+    case Direction.LEFT:
+      moveGhostIn(arena, [i, j - 1], ghost.id);
+      break;
+    case Direction.UP:
+      moveGhostIn(arena, [i - 1, j], ghost.id);
+      break;
+    case Direction.DOWN:
+      moveGhostIn(arena, [i + 1, j], ghost.id);
+      break;
+  }
+}
+
+function moveGhostIn(arena: ArenaState, coords: Coords, id: number) {
+  const [i, j] = coords;
+
+  if (isPacman(arena[i][j])) {
+    store.dispatch(gameOver());
+  } else if (isFood(arena[i][j]) || isPowerFood(arena[i][j])) {
+    store.dispatch(eatUsualFood([i, j]));
+    store.dispatch(changeGhostCoords(id, [i, j]));
+  } else if (isWall(arena[i][j]) || isGhost(arena[i][j])) {
+    const randomDirection = [
+      Direction.LEFT,
+      Direction.RIGHT,
+      Direction.UP,
+      Direction.DOWN,
+    ][Math.floor(Math.random() * 4)];
+    store.dispatch(changeGhostDirection(id, randomDirection));
+  } else if (isFloor(arena[i][j])) {
+    store.dispatch(changeGhostCoords(id, [i, j]));
+  } else {
+    return;
+  }
 }

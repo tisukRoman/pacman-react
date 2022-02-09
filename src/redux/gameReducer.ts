@@ -23,8 +23,8 @@ const gameState: GameState = {
     [1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1],
     [0, 0, 0, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 0, 0, 0],
     [0, 0, 0, 1, 2, 1, 2, 1, 0, 0, 0, 0, 1, 2, 1, 2, 1, 0, 0, 0],
-    [1, 1, 1, 1, 2, 1, 2, 1, 0, 9, 9, 0, 1, 2, 1, 2, 1, 1, 1, 1],
-    [1, 0, 0, 0, 2, 2, 2, 1, 0, 9, 9, 0, 1, 2, 2, 2, 0, 0, 0, 1],
+    [1, 1, 1, 1, 2, 1, 2, 1, 0, 11, 13, 0, 1, 2, 1, 2, 1, 1, 1, 1],
+    [1, 0, 0, 0, 2, 2, 2, 1, 0, 12, 14, 0, 1, 2, 2, 2, 0, 0, 0, 1],
     [1, 1, 1, 1, 2, 1, 2, 1, 0, 0, 0, 0, 1, 2, 1, 2, 1, 1, 1, 1],
     [0, 0, 0, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 0, 0, 0],
     [0, 0, 0, 1, 2, 1, 2, 0, 0, 0, 3, 0, 0, 2, 1, 2, 1, 0, 0, 0],
@@ -43,10 +43,10 @@ const gameState: GameState = {
     direction: Direction.RIGHT,
   },
   ghosts: [
-    { id: 1, coords: [10, 10], direction: Direction.UP },
-    { id: 2, coords: [10, 9], direction: Direction.DOWN },
-    { id: 3, coords: [11, 10], direction: Direction.LEFT },
-    { id: 4, coords: [11, 9], direction: Direction.RIGHT },
+    { id: 11, coords: [10, 9], direction: Direction.LEFT },
+    { id: 12, coords: [11, 9], direction: Direction.RIGHT },
+    { id: 13, coords: [10, 10], direction: Direction.LEFT },
+    { id: 14, coords: [11, 10], direction: Direction.RIGHT },
   ],
   food: {
     count: 176,
@@ -192,12 +192,18 @@ function getUpdatedArena(state: GameState): ArenaState {
   let arena = state.arena.map((row) => {
     return row.map((el) => {
       if (el === o.PACMAN) return o.FLOOR;
+      if (o.GHOST.includes(el)) return o.FLOOR;
       else return el;
     });
   });
 
   const [i, j] = state.pacman.coords;
   arena[i][j] = o.PACMAN;
+
+  state.ghosts.forEach((ghost) => {
+    const [i, j] = ghost.coords;
+    arena[i][j] = ghost.id;
+  });
 
   return arena;
 }
