@@ -9,6 +9,7 @@ const PacmanWrapper = styled.div`
   transform: rotate(${(props: PacmanProps) => turnPacman(props.direction)})
     scale(${(props: PacmanProps) => (props.power ? 1.4 : 1)});
   transition: 0.5s;
+  border-radius: 50%;
 `;
 
 const PacmanImage = styled.img`

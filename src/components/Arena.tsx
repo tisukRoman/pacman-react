@@ -33,6 +33,7 @@ const Arena = () => {
   const pacman = useSelector<AppState, PacmanState>(state => state.pacman);
   const arena = useSelector<AppState, ArenaState>((state) => state.arena);
   const ghosts = useSelector<AppState, GhostState[]>((state) => state.ghosts);
+  const gameLose = useSelector<AppState, boolean>((state) => state.isLose);
 
   const dispatch = useDispatch();
 
@@ -45,13 +46,13 @@ const Arena = () => {
   }, [dispatch, arena]);
 
   useEffect(() => {
-    if (animationSpeed > 6) {
+    if (animationSpeed > 5 && !gameLose) {
       pacmanMoves(arena, pacman);
       ghosts.forEach((ghost) => ghostMoves(arena, ghost));
       dispatch(updateArena());
       setAnimationSpeed(0);
     }
-  }, [dispatch, animationSpeed, arena, pacman, ghosts]);
+  }, [dispatch, animationSpeed, arena, pacman, ghosts, gameLose]);
 
   useAnimationFrame(() => {
     setAnimationSpeed((s) => s + 1);

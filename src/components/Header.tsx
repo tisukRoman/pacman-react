@@ -16,9 +16,8 @@ const HeaderWrapper = styled.header`
 
 const Header = () => {
   const currentScore = useSelector<AppState, number>((state) => state.currentScore);
-  const maxScore = useSelector<AppState, number>((state) => state.maxScore);
 
-  return <HeaderWrapper>score: {currentScore}</HeaderWrapper>;
+  return <HeaderWrapper>Текущий рекорд: {currentScore}</HeaderWrapper>;
 };
 
 export default Header;

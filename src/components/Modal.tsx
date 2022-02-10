@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../setup/types';
 import { restartGame } from '../actions/game';
+import { theme } from '../theme';
 
 const ModalWrapper = styled.div`
   position: absolute;
@@ -16,6 +17,7 @@ const ModalWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   border-radius: 3em;
+  border: 10px solid #000;
 `;
 
 const Title = styled.h2`
@@ -36,10 +38,14 @@ const RestartButton = styled.div`
   font-size: 3rem;
   text-align: center;
   background-color: #aaa;
-  border: 1px solid #000;
+  border: 8px solid #000;
+  border-radius: 2em;
   cursor: pointer;
+  transition: 0.2s;
   &:hover {
-    background-color: #faa;
+    border-color: ${theme.COLORS.dark_blue};
+    transform: scale(1.1);
+    color: ${theme.COLORS.dark_blue}
   }
 `;
 
