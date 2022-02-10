@@ -1,5 +1,5 @@
 import { AppAction, Coords, Direction } from '../setup/types';
-import {constants as c} from '../setup/constants';
+import { constants as c } from '../setup/constants';
 
 export const changePacmanDirection = (direction: Direction): AppAction => ({
   type: c.CHANGE_PACMAN_DIRECTION,
@@ -13,4 +13,9 @@ export const changePacmanCoords = (coords: Coords): AppAction => ({
 
 export const cancellPowerMode = (): AppAction => ({
   type: c.CANCELL_POWER_MODE,
+});
+
+export const eatScaredGhost = (id: number): AppAction => ({
+  type: c.EAT_SCARED_GHOST,
+  id
 });

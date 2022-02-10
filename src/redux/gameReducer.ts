@@ -58,6 +58,12 @@ const gameState: GameState = {
 
 export const game = (state = gameState, action: AppAction): GameState => {
   switch (action.type) {
+    case c.EAT_SCARED_GHOST:
+      return {
+        ...JSON.parse(JSON.stringify(state)),
+        currentScore: state.currentScore + 100,
+        ghosts: ghosts(state.ghosts, action),
+      };
     case c.CHANGE_GHOST_COORDINATES:
       return {
         ...JSON.parse(JSON.stringify(state)),
@@ -162,6 +168,8 @@ function food(state = gameState.food, action: AppAction): FoodState {
 
 function ghosts(state = gameState.ghosts, action: AppAction) {
   switch (action.type) {
+    case c.EAT_SCARED_GHOST:
+      return state.filter((ghost: GhostState) => ghost.id !== action.id);
     case c.CANCELL_POWER_MODE:
       return state.map((ghost: GhostState) => ({
         ...ghost,

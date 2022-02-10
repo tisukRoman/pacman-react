@@ -1,6 +1,6 @@
 import { updateArena } from '../actions/arena';
 import { eatPowerFood, eatUsualFood } from '../actions/food';
-import { changePacmanCoords } from '../actions/pacman';
+import { changePacmanCoords, eatScaredGhost } from '../actions/pacman';
 import {
   ArenaState,
   Coords,
@@ -41,8 +41,13 @@ function moveIn(arena: ArenaState, coords: Coords) {
 
   if (isWall(arena[i][j])) {
     return;
-  }
-  if (isFood(arena[i][j])) {
+  } else if (isGhost(arena[i][j])) {
+    if (store.getState().pacman.power) {
+      store.dispatch(eatScaredGhost(arena[i][j]));
+    } else {
+      store.dispatch(gameOver());
+    }
+  } else if (isFood(arena[i][j])) {
     store.dispatch(changePacmanCoords([i, j]));
     store.dispatch(eatUsualFood([i, j]));
   } else if (isPowerFood(arena[i][j])) {
@@ -127,7 +132,9 @@ function moveGhostIn(arena: ArenaState, coords: Coords, id: number) {
   const [i, j] = coords;
 
   if (isPacman(arena[i][j])) {
-    store.dispatch(gameOver());
+    if (!store.getState().pacman.power) {
+      store.dispatch(gameOver());
+    }
   } else if (isFood(arena[i][j]) || isPowerFood(arena[i][j])) {
     store.dispatch(eatUsualFood([i, j]));
     store.dispatch(changeGhostCoords(id, [i, j]));
