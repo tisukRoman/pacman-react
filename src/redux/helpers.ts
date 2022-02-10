@@ -1,4 +1,3 @@
-import { updateArena } from '../actions/arena';
 import { eatPowerFood, eatUsualFood } from '../actions/food';
 import { changePacmanCoords, eatScaredGhost } from '../actions/pacman';
 import {
@@ -11,7 +10,11 @@ import {
 import { store } from './store';
 import { objects as o } from '../setup/constants';
 import { gameOver } from '../actions/game';
-import { changeGhostCoords, changeGhostDirection } from '../actions/ghost';
+import {
+  changeGhostCoords,
+  changeGhostDirection,
+  ghostEatsFood
+} from '../actions/ghost';
 
 export function pacmanMoves(arena: ArenaState, pacman: PacmanState) {
   const coords = findPacmanCoords(arena);
@@ -136,7 +139,7 @@ function moveGhostIn(arena: ArenaState, coords: Coords, id: number) {
       store.dispatch(gameOver());
     }
   } else if (isFood(arena[i][j]) || isPowerFood(arena[i][j])) {
-    store.dispatch(eatUsualFood([i, j]));
+    store.dispatch(ghostEatsFood([i, j]));
     store.dispatch(changeGhostCoords(id, [i, j]));
   } else if (isWall(arena[i][j]) || isGhost(arena[i][j])) {
     const randomDirection = [

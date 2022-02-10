@@ -58,6 +58,11 @@ const gameState: GameState = {
 
 export const game = (state = gameState, action: AppAction): GameState => {
   switch (action.type) {
+    case c.GHOST_EAT_FOOD:
+      return {
+        ...JSON.parse(JSON.stringify(state)),
+        food: food(state.food, action),
+      };
     case c.EAT_SCARED_GHOST:
       return {
         ...JSON.parse(JSON.stringify(state)),
@@ -87,7 +92,7 @@ export const game = (state = gameState, action: AppAction): GameState => {
         pacman: pacman(state.pacman, action),
         ghosts: ghosts(state.ghosts, action),
       };
-    case c.EAT_POWER_FOOD:
+    case c.PACMAN_EAT_POWER_FOOD:
       return {
         ...JSON.parse(JSON.stringify(state)),
         currentScore: state.currentScore + 50,
@@ -95,7 +100,7 @@ export const game = (state = gameState, action: AppAction): GameState => {
         pacman: pacman(state.pacman, action),
         ghosts: ghosts(state.ghosts, action),
       };
-    case c.EAT_USUAL_FOOD:
+    case c.PACMAN_EAT_USUAL_FOOD:
       return {
         ...JSON.parse(JSON.stringify(state)),
         currentScore: state.currentScore + 10,
@@ -129,7 +134,7 @@ function pacman (state = gameState.pacman, action: AppAction ): PacmanState {
         ...state,
         power: false,
       };
-    case c.EAT_POWER_FOOD:
+    case c.PACMAN_EAT_POWER_FOOD:
       return {
         ...state,
         power: true,
@@ -151,12 +156,17 @@ function pacman (state = gameState.pacman, action: AppAction ): PacmanState {
 
 function food(state = gameState.food, action: AppAction): FoodState {
   switch (action.type) {
-    case c.EAT_POWER_FOOD:
+    case c.GHOST_EAT_FOOD:
       return {
         ...state,
         count: state.count - 1,
       };
-    case c.EAT_USUAL_FOOD:
+    case c.PACMAN_EAT_POWER_FOOD:
+      return {
+        ...state,
+        count: state.count - 1,
+      };
+    case c.PACMAN_EAT_USUAL_FOOD:
       return {
         ...state,
         count: state.count - 1,
@@ -175,7 +185,7 @@ function ghosts(state = gameState.ghosts, action: AppAction) {
         ...ghost,
         isScared: false,
       }));
-    case c.EAT_POWER_FOOD:
+    case c.PACMAN_EAT_POWER_FOOD:
       return state.map((ghost: GhostState) => ({
         ...ghost,
         isScared: true,
