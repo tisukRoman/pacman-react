@@ -2,13 +2,7 @@ import { v4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {
-  ArenaState,
-  PacmanState,
-  AppState,
-  GhostState,
-  FoodState,
-} from '../setup/types';
+import { ArenaState, PacmanState, AppState, GhostState } from '../setup/types';
 import { theme } from '../theme';
 import useAnimationFrame from '../hooks/useAnimationFrame';
 import useArrowsController from '../hooks/useArrowsController';
@@ -21,6 +15,7 @@ import { objects as o } from '../setup/constants';
 import Ghost from './Ghost';
 import { restartGame } from '../actions/game';
 import { updateArena } from '../actions/arena';
+import { spawnFood } from '../actions/food';
 
 const ArenaWrapper = styled.div`
   position: absolute;
@@ -41,18 +36,16 @@ const Arena = () => {
   const ghosts = useSelector<AppState, GhostState[]>((state) => state.ghosts);
   const gameIsLose = useSelector<AppState, boolean>((state) => state.isLose);
   const score = useSelector<AppState, number>((state) => state.currentScore);
-  const { count } = useSelector<AppState, FoodState>((state) => state.food);
 
   const dispatch = useDispatch();
 
   const [animationSpeed, setAnimationSpeed] = useState<number>(0);
 
   useEffect(() => {
-    if (count === 0) {
-      alert(`Вы победили!!!`);
-      dispatch(restartGame());
+    if (!isFoodExist(arena)) {
+      dispatch(spawnFood());
     }
-  }, [dispatch, count, score]);
+  }, [dispatch, arena]);
 
   useEffect(() => {
     if (gameIsLose) {
@@ -108,3 +101,9 @@ const Arena = () => {
 };
 
 export default Arena;
+
+function isFoodExist(arena: ArenaState): boolean {
+  return arena.some((row) => {
+    return row.some((item) => item === o.FOOD || item === o.POWER_FOOD);
+  });
+}

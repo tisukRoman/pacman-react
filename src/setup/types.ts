@@ -19,11 +19,6 @@ export type PacmanState = {
   power: boolean;
 };
 
-export type FoodState = {
-  count: number;
-  coordsList: Coords[];
-};
-
 export type GhostState = {
   id: number;
   coords: Coords;
@@ -37,7 +32,6 @@ export type GameState = {
   maxScore: number;
   arena: ArenaState;
   pacman: PacmanState;
-  food: FoodState;
   ghosts: GhostState[];
 };
 

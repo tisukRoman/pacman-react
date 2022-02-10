@@ -1,8 +1,8 @@
 import {
   AppAction,
   ArenaState,
+  Coords,
   Direction,
-  FoodState,
   GameState,
   GhostState,
   PacmanState,
@@ -48,16 +48,17 @@ const gameState: GameState = {
     { id: 13, coords: [10, 10], direction: Direction.LEFT, isScared: false },
     { id: 14, coords: [11, 10], direction: Direction.RIGHT, isScared: false },
   ],
-  food: {
-    count: 176,
-    coordsList: [],
-  },
   currentScore: 0,
   maxScore: 0,
 };
 
 export const game = (state = gameState, action: AppAction): GameState => {
   switch (action.type) {
+    case c.SPAWN_FOOD:
+      return {
+        ...JSON.parse(JSON.stringify(state)),
+        arena: spawnFood(state),
+      };
     case c.SPAWN_EATEN_GHOST:
       return {
         ...JSON.parse(JSON.stringify(state)),
@@ -67,7 +68,6 @@ export const game = (state = gameState, action: AppAction): GameState => {
     case c.GHOST_EAT_FOOD:
       return {
         ...JSON.parse(JSON.stringify(state)),
-        food: food(state.food, action),
       };
     case c.EAT_SCARED_GHOST:
       return {
@@ -102,7 +102,6 @@ export const game = (state = gameState, action: AppAction): GameState => {
       return {
         ...JSON.parse(JSON.stringify(state)),
         currentScore: state.currentScore + 50,
-        food: food(state.food, action),
         pacman: pacman(state.pacman, action),
         ghosts: ghosts(state.ghosts, action),
       };
@@ -110,7 +109,6 @@ export const game = (state = gameState, action: AppAction): GameState => {
       return {
         ...JSON.parse(JSON.stringify(state)),
         currentScore: state.currentScore + 10,
-        food: food(state.food, action),
       };
     case c.UPDATE_ARENA:
       return {
@@ -154,28 +152,6 @@ function pacman (state = gameState.pacman, action: AppAction ): PacmanState {
       return {
         ...state,
         coords: action.coords ? action.coords : [14, 10],
-      };
-    default:
-      return state;
-  }
-}
-
-function food(state = gameState.food, action: AppAction): FoodState {
-  switch (action.type) {
-    case c.GHOST_EAT_FOOD:
-      return {
-        ...state,
-        count: state.count - 1,
-      };
-    case c.PACMAN_EAT_POWER_FOOD:
-      return {
-        ...state,
-        count: state.count - 1,
-      };
-    case c.PACMAN_EAT_USUAL_FOOD:
-      return {
-        ...state,
-        count: state.count - 1,
       };
     default:
       return state;
@@ -267,5 +243,27 @@ function spawnGhost(arena: ArenaState, action: AppAction) {
     default:
       return newArena;
   }
+  return newArena;
+}
+
+function spawnFood(state: GameState) {
+  debugger;
+  const newArena = state.arena;
+  const initialArena = gameState.arena;
+
+  for (let i = 0; i < initialArena.length; i++) {
+    for (let j = 0; j < initialArena[i].length; j++) {
+      if (initialArena[i][j] === o.FOOD) {
+        if (newArena[i][j] === o.FLOOR) {
+          newArena[i][j] = o.FOOD;
+        }
+      } else if (initialArena[i][j] === o.POWER_FOOD) {
+        if (newArena[i][j] === o.FLOOR) {
+          newArena[i][j] = o.POWER_FOOD;
+        }
+      }
+    }
+  }
+
   return newArena;
 }
