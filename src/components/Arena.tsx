@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
 import styled from 'styled-components';
 import { theme } from '../theme';
