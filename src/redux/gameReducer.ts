@@ -247,7 +247,6 @@ function spawnGhost(arena: ArenaState, action: AppAction) {
 }
 
 function spawnFood(state: GameState) {
-  debugger;
   const newArena = state.arena;
   const initialArena = gameState.arena;
 

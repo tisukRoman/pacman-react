@@ -13,7 +13,6 @@ import Floor from './Floor';
 import usePacmanPowerModeTimer from '../hooks/usePowerModeTimer';
 import { objects as o } from '../setup/constants';
 import Ghost from './Ghost';
-import { restartGame } from '../actions/game';
 import { updateArena } from '../actions/arena';
 import { spawnFood } from '../actions/food';
 
@@ -34,8 +33,6 @@ const Arena = () => {
   const pacman = useSelector<AppState, PacmanState>(state => state.pacman);
   const arena = useSelector<AppState, ArenaState>((state) => state.arena);
   const ghosts = useSelector<AppState, GhostState[]>((state) => state.ghosts);
-  const gameIsLose = useSelector<AppState, boolean>((state) => state.isLose);
-  const score = useSelector<AppState, number>((state) => state.currentScore);
 
   const dispatch = useDispatch();
 
@@ -46,13 +43,6 @@ const Arena = () => {
       dispatch(spawnFood());
     }
   }, [dispatch, arena]);
-
-  useEffect(() => {
-    if (gameIsLose) {
-      alert(`Вы проиграли :(  Рекорд: ${score}`);
-      dispatch(restartGame());
-    }
-  }, [dispatch, gameIsLose, score]);
 
   useEffect(() => {
     if (animationSpeed > 6) {
