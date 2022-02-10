@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { v4 } from 'uuid';
 import styled from 'styled-components';
 import { theme } from '../theme';
@@ -14,6 +14,9 @@ import Pacman from './Pacman';
 import Wall from './Wall';
 import Floor from './Floor';
 import Ghost from './Ghost';
+import { playAudio } from '../functions/playAudio';
+const game_start_audio = require('../assets/start.wav');
+const death_audio = require('../assets/death.wav');
 
 const ArenaWrapper = styled.div`
   position: absolute;
@@ -39,13 +42,21 @@ const Arena = () => {
   const [animationSpeed, setAnimationSpeed] = useState<number>(0);
 
   useEffect(() => {
+    if (gameLose) {
+      playAudio(death_audio);
+    } else {
+      playAudio(game_start_audio);
+    }
+  }, [gameLose]);
+
+  useEffect(() => {
     if (!isFoodExist(arena)) {
       dispatch(spawnFood());
     }
   }, [dispatch, arena]);
 
   useEffect(() => {
-    if (animationSpeed > 5 && !gameLose) {
+    if (animationSpeed > 8 && !gameLose) {
       gameLoop(arena, pacman, ghosts);
       setAnimationSpeed(0);
     }

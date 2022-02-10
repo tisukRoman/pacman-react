@@ -6,7 +6,10 @@ import { eatPowerFood, eatUsualFood } from '../actions/food';
 import { changePacmanCoords, eatScaredGhost } from '../actions/pacman';
 import { changeGhostCoords, changeGhostDirection, ghostEatsFood, spawnEatenGhost } from '../actions/ghost';
 import { updateArena } from '../actions/arena';
-
+import { playAudio } from './playAudio';
+const power_audio = require('../assets/pill.wav');
+const eat_audio = require('../assets/eat.wav');
+const eat_ghost_audio = require('../assets/eat_ghost.wav');
 
 // Main function of the Game
 
@@ -60,6 +63,7 @@ function checkIfGhostsNear(arena: ArenaState, pacman: PacmanState, coords: Coord
   const [i, j] = coords;
   if (isGhost(arena[i][j])) {
     if (pacman.power) {
+      playAudio(eat_ghost_audio);
       store.dispatch(eatScaredGhost(arena[i][j]));
       store.dispatch(spawnEatenGhost(arena[i][j]));
     } else {
@@ -72,9 +76,11 @@ function movePacmanIn(arena: ArenaState, [i, j]: Coords) {
   if (isWall(arena[i][j])) {
     return;
   } else if (isFood(arena[i][j])) {
+    playAudio(eat_audio);
     store.dispatch(changePacmanCoords([i, j]));
     store.dispatch(eatUsualFood([i, j]));
   } else if (isPowerFood(arena[i][j])) {
+    playAudio(power_audio);
     store.dispatch(changePacmanCoords([i, j]));
     store.dispatch(eatPowerFood([i, j]));
   } else {
