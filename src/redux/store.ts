@@ -1,6 +1,4 @@
 import { createStore } from 'redux';
-import { game } from './gameReducer';
+import { game } from './reducers/game';
 
 export const store = createStore(game);
-
-store.subscribe(()=> console.log(store.getState().maxScore))

@@ -1,20 +1,19 @@
-import { v4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { v4 } from 'uuid';
 import styled from 'styled-components';
-import { ArenaState, PacmanState, AppState, GhostState } from '../setup/types';
 import { theme } from '../theme';
+import { ArenaState, PacmanState, AppState, GhostState } from '../setup/types';
+import { objects as o } from '../setup/constants';
 import useAnimationFrame from '../hooks/useAnimationFrame';
 import useArrowsController from '../hooks/useArrowsController';
-import { ghostMoves, pacmanMoves } from '../redux/helpers';
+import usePacmanPowerModeTimer from '../hooks/usePowerModeTimer';
+import { spawnFood } from '../actions/food';
+import { gameLoop } from '../functions/gameLoop';
 import Pacman from './Pacman';
 import Wall from './Wall';
 import Floor from './Floor';
-import usePacmanPowerModeTimer from '../hooks/usePowerModeTimer';
-import { objects as o } from '../setup/constants';
 import Ghost from './Ghost';
-import { updateArena } from '../actions/arena';
-import { spawnFood } from '../actions/food';
 
 const ArenaWrapper = styled.div`
   position: absolute;
@@ -47,9 +46,7 @@ const Arena = () => {
 
   useEffect(() => {
     if (animationSpeed > 5 && !gameLose) {
-      pacmanMoves(arena, pacman);
-      ghosts.forEach((ghost) => ghostMoves(arena, ghost));
-      dispatch(updateArena());
+      gameLoop(arena, pacman, ghosts);
       setAnimationSpeed(0);
     }
   }, [dispatch, animationSpeed, arena, pacman, ghosts, gameLose]);

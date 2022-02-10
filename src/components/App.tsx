@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { setMaxScoreToStorage } from '../redux/gameReducer';
+import { setMaxScoreToStorage } from '../functions/localStorage';
 import { AppState } from '../setup/types';
 import Arena from './Arena';
 import Header from './Header';
@@ -14,7 +14,7 @@ const App = () => {
   useEffect(() => {
     if (gameIsLose) {
       setModal(true);
-      setMaxScoreToStorage(currentScore)
+      setMaxScoreToStorage(currentScore);
     }
   }, [gameIsLose, currentScore]);
 

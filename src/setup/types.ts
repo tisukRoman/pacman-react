@@ -1,4 +1,4 @@
-import { game } from '../redux/gameReducer';
+import { game } from '../redux/reducers/game';
 
 export type AppState = ReturnType<typeof game>;
 
