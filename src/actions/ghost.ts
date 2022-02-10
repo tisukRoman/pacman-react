@@ -20,3 +20,8 @@ export const ghostEatsFood = (coords: Coords): AppAction => ({
   type: c.GHOST_EAT_FOOD,
   coords,
 });
+
+export const spawnEatenGhost = (id: number): AppAction => ({
+  type: c.SPAWN_EATEN_GHOST,
+  id,
+});

@@ -13,7 +13,8 @@ import { gameOver } from '../actions/game';
 import {
   changeGhostCoords,
   changeGhostDirection,
-  ghostEatsFood
+  ghostEatsFood,
+  spawnEatenGhost,
 } from '../actions/ghost';
 
 export function pacmanMoves(arena: ArenaState, pacman: PacmanState) {
@@ -22,6 +23,11 @@ export function pacmanMoves(arena: ArenaState, pacman: PacmanState) {
     return;
   }
   const [i, j] = coords;
+
+  checkIfGhostsNear(arena, pacman, [i, j + 1]);
+  checkIfGhostsNear(arena, pacman, [i, j - 1]);
+  checkIfGhostsNear(arena, pacman, [i + 1, j]);
+  checkIfGhostsNear(arena, pacman, [i - 1, j]);
 
   switch (pacman.direction) {
     case Direction.RIGHT:
@@ -39,17 +45,27 @@ export function pacmanMoves(arena: ArenaState, pacman: PacmanState) {
   }
 }
 
+function checkIfGhostsNear(
+  arena: ArenaState,
+  pacman: PacmanState,
+  coords: Coords
+) {
+  const [i, j] = coords;
+  if (isGhost(arena[i][j])) {
+    if (pacman.power) {
+      store.dispatch(eatScaredGhost(arena[i][j]));
+      store.dispatch(spawnEatenGhost(arena[i][j]));
+    } else {
+      store.dispatch(gameOver());
+    }
+  }
+}
+
 function moveIn(arena: ArenaState, coords: Coords) {
   const [i, j] = coords;
 
   if (isWall(arena[i][j])) {
     return;
-  } else if (isGhost(arena[i][j])) {
-    if (store.getState().pacman.power) {
-      store.dispatch(eatScaredGhost(arena[i][j]));
-    } else {
-      store.dispatch(gameOver());
-    }
   } else if (isFood(arena[i][j])) {
     store.dispatch(changePacmanCoords([i, j]));
     store.dispatch(eatUsualFood([i, j]));

@@ -58,6 +58,12 @@ const gameState: GameState = {
 
 export const game = (state = gameState, action: AppAction): GameState => {
   switch (action.type) {
+    case c.SPAWN_EATEN_GHOST:
+      return {
+        ...JSON.parse(JSON.stringify(state)),
+        arena: spawnGhost(state.arena, action),
+        ghosts: ghosts(state.ghosts, action),
+      };
     case c.GHOST_EAT_FOOD:
       return {
         ...JSON.parse(JSON.stringify(state)),
@@ -178,6 +184,11 @@ function food(state = gameState.food, action: AppAction): FoodState {
 
 function ghosts(state = gameState.ghosts, action: AppAction) {
   switch (action.type) {
+    case c.SPAWN_EATEN_GHOST:
+      return [
+        ...state,
+        ...gameState.ghosts.filter((ghost) => ghost.id === action.id),
+      ];
     case c.EAT_SCARED_GHOST:
       return state.filter((ghost: GhostState) => ghost.id !== action.id);
     case c.CANCELL_POWER_MODE:
@@ -236,4 +247,25 @@ function getUpdatedArena(state: GameState): ArenaState {
   });
 
   return arena;
+}
+
+function spawnGhost(arena: ArenaState, action: AppAction) {
+  const newArena = arena;
+  switch (action.id) {
+    case 11:
+      newArena[10][9] = 11;
+      break;
+    case 12:
+      newArena[11][9] = 12;
+      break;
+    case 13:
+      newArena[10][10] = 13;
+      break;
+    case 14:
+      newArena[11][10] = 14;
+      break;
+    default:
+      return newArena;
+  }
+  return newArena;
 }
