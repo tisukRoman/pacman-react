@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import ghost_src from '../assets/ghost.gif';
+import scared_ghost_src from '../assets/scared_ghost.gif';
 
 const GhostWrapper = styled.div`
   overflow: hidden;
@@ -12,10 +13,14 @@ const GhostImage = styled.img`
   width: 100%;
 `;
 
-const Ghost = () => {
+type GhostProps = {
+  isScared: boolean;
+};
+
+const Ghost: React.FC<GhostProps> = ({ isScared }) => {
   return (
     <GhostWrapper>
-      <GhostImage src={ghost_src} />
+      <GhostImage src={isScared ? scared_ghost_src : ghost_src} />
     </GhostWrapper>
   );
 };

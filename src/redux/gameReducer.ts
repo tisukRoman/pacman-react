@@ -43,10 +43,10 @@ const gameState: GameState = {
     direction: Direction.RIGHT,
   },
   ghosts: [
-    { id: 11, coords: [10, 9], direction: Direction.LEFT },
-    { id: 12, coords: [11, 9], direction: Direction.RIGHT },
-    { id: 13, coords: [10, 10], direction: Direction.LEFT },
-    { id: 14, coords: [11, 10], direction: Direction.RIGHT },
+    { id: 11, coords: [10, 9], direction: Direction.LEFT, isScared: false },
+    { id: 12, coords: [11, 9], direction: Direction.RIGHT, isScared: false },
+    { id: 13, coords: [10, 10], direction: Direction.LEFT, isScared: false },
+    { id: 14, coords: [11, 10], direction: Direction.RIGHT, isScared: false },
   ],
   food: {
     count: 176,
@@ -79,6 +79,7 @@ export const game = (state = gameState, action: AppAction): GameState => {
       return {
         ...JSON.parse(JSON.stringify(state)),
         pacman: pacman(state.pacman, action),
+        ghosts: ghosts(state.ghosts, action),
       };
     case c.EAT_POWER_FOOD:
       return {
@@ -86,6 +87,7 @@ export const game = (state = gameState, action: AppAction): GameState => {
         currentScore: state.currentScore + 50,
         food: food(state.food, action),
         pacman: pacman(state.pacman, action),
+        ghosts: ghosts(state.ghosts, action),
       };
     case c.EAT_USUAL_FOOD:
       return {
@@ -160,6 +162,16 @@ function food(state = gameState.food, action: AppAction): FoodState {
 
 function ghosts(state = gameState.ghosts, action: AppAction) {
   switch (action.type) {
+    case c.CANCELL_POWER_MODE:
+      return state.map((ghost: GhostState) => ({
+        ...ghost,
+        isScared: false,
+      }));
+    case c.EAT_POWER_FOOD:
+      return state.map((ghost: GhostState) => ({
+        ...ghost,
+        isScared: true,
+      }));
     case c.CHANGE_GHOST_DIRECTION:
       return state.map((ghost: GhostState) => {
         if (ghost.id === action.id) {

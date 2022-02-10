@@ -28,6 +28,7 @@ export type GhostState = {
   id: number;
   coords: Coords;
   direction: Direction;
+  isScared: boolean;
 };
 
 export type GameState = {

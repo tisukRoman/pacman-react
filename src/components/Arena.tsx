@@ -91,7 +91,7 @@ const Arena = () => {
               />
             );
           } else if (o.GHOST.includes(block)) {
-            return <Ghost key={v4()} />;
+            return <Ghost key={v4()} isScared={ghosts[0].isScared} />;
           } else if (block === o.WALL) {
             return <Wall key={v4()}></Wall>;
           } else if (block === o.FOOD) {
