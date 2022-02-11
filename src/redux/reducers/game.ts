@@ -4,8 +4,10 @@ import { constants as c } from '../../setup/constants';
 import { objects as o } from '../../setup/constants';
 import { ghosts } from './ghosts';
 import { pacman } from './pacman';
+import { Reducer } from 'redux';
 
-export const game = (state = gameState, action: AppAction): GameState => {
+
+export const game: Reducer<GameState, AppAction> = (state = gameState, action) => {
   switch (action.type) {
     case c.SPAWN_FOOD:
       return {

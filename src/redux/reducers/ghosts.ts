@@ -1,8 +1,10 @@
-import { AppAction, GhostState } from '../../setup/types';
+import { GhostState } from '../../setup/types';
 import { gameState } from '../gameState';
 import { constants as c } from '../../setup/constants';
+import { Reducer } from 'redux';
 
-export function ghosts(state = gameState.ghosts, action: AppAction) {
+// prettier-ignore
+export const ghosts: Reducer<GhostState[]> = (state = [], action) => {
   switch (action.type) {
     case c.SPAWN_EATEN_GHOST:
       return [

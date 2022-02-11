@@ -37,7 +37,7 @@ export type GameState = {
 
 export type AppAction = {
   type: string;
+  id?: number;
   direction?: Direction;
   coords?: Coords;
-  id?: number;
-};
+}

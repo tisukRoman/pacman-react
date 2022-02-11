@@ -22,7 +22,7 @@ export function gameLoop(arena: ArenaState, pacman: PacmanState, ghosts: GhostSt
 // Pacman functions
 
 function pacmanMoves(arena: ArenaState, pacman: PacmanState) {
-  const coords = findPacmanCoords(arena);
+  const coords = findCoords(arena, o.PACMAN);
   if (!coords) {
     return;
   }
@@ -47,16 +47,6 @@ function pacmanMoves(arena: ArenaState, pacman: PacmanState) {
       movePacmanIn(arena, [i + 1, j]);
       break;
   }
-}
-
-function findPacmanCoords(arena: ArenaState): Coords | undefined {
-  for (let i = 0; i < arena.length; i++) {
-    for (let j = 0; j < arena[i].length; j++) {
-      if (arena[i][j] === o.PACMAN) return [i, j];
-      else continue;
-    }
-  }
-  return undefined;
 }
 
 function checkIfGhostsNear(arena: ArenaState, pacman: PacmanState, coords: Coords) {
@@ -91,7 +81,7 @@ function movePacmanIn(arena: ArenaState, [i, j]: Coords) {
 // Ghosts functions
 
 function ghostMoves(arena: ArenaState, ghost: GhostState) {
-  const coords = findGhostCoords(arena, ghost.id);
+  const coords = findCoords(arena, ghost.id);
   if (!coords) {
     return;
   }
@@ -111,16 +101,6 @@ function ghostMoves(arena: ArenaState, ghost: GhostState) {
       moveGhostIn(arena, [i + 1, j], ghost.id);
       break;
   }
-}
-
-function findGhostCoords(arena: ArenaState, id: number): Coords | undefined {
-  for (let i = 0; i < arena.length; i++) {
-    for (let j = 0; j < arena[i].length; j++) {
-      if (arena[i][j] === id) return [i, j];
-      else continue;
-    }
-  }
-  return undefined;
 }
 
 function moveGhostIn(arena: ArenaState, [i, j]: Coords, id: number) {
@@ -146,7 +126,17 @@ function moveGhostIn(arena: ArenaState, [i, j]: Coords, id: number) {
   }
 }
 
-// functions to check the object type on the current cell
+// shared functions
+
+function findCoords(arena: ArenaState, objectType: number): Coords | null {
+  for (let i = 0; i < arena.length; i++) {
+    for (let j = 0; j < arena[i].length; j++) {
+      if (arena[i][j] === objectType) return [i, j];
+      else continue;
+    }
+  }
+  return null;
+}
 
 function isPacman(element: number): boolean {
   return element === o.PACMAN;

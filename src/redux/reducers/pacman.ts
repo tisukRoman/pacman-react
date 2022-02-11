@@ -1,9 +1,10 @@
 import { AppAction, Direction, PacmanState } from '../../setup/types';
 import { gameState } from '../gameState';
 import { constants as c } from '../../setup/constants';
+import { Reducer } from 'redux';
 
 // prettier-ignore
-export function pacman (state = gameState.pacman, action: AppAction ): PacmanState {
+export const pacman: Reducer<PacmanState, AppAction> = (state = gameState.pacman, action ) => {
     switch (action.type) {
       case c.CANCELL_POWER_MODE:
         return {
